@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\User;
 use Yii;
 use yii\rest\Controller;
 
@@ -29,15 +30,17 @@ class UserController extends Controller
             //Gán md5 cho password
             $inputPasswordHashMd5 = md5($inputPassword);
 
-            //Set cứng dữ liệu username va password
-            $correctUsername = 'daominhhung';
-            $correctPasswordHash  = md5('123123123');
+            $user = User::find()->all();
+            foreach ($user as $usres) {
+                $dataUsername = $usres->username;
+                $dataPassword = $usres->password;
+            }
 
             //Now là lấy ngày hôm nay theo format day-month-year
             $now = (new \DateTime())->format('d-m-Y');
 
             //Ở đây là so sánh username và password trả về dữ liệu
-            if ($inputUsername === $correctUsername && $inputPasswordHashMd5 === $correctPasswordHash) {
+            if ($inputUsername === $dataUsername && $inputPasswordHashMd5 === $dataPassword) {
                 return [
                     'status' => 'true',
                     'data' => [
@@ -60,5 +63,23 @@ class UserController extends Controller
                 'message' => 'Thiếu thông tin đăng nhập',
             ];
         }
+    }
+    public function actionUser()
+    {
+        $user = User::find()->all();
+        return $user;
+    }
+    public function actionRegister()
+    {
+        $formData = Yii::$app->request->post();
+
+
+        $user = new User();
+        // $user->load($formData);
+        $user->username = $formData['username'];
+        $user->password = md5($formData['password']);
+        $user->save();
+
+        return $user;
     }
 }

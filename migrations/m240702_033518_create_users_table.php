@@ -16,8 +16,8 @@ class m240702_033518_create_users_table extends Migration
             'id' => $this->primaryKey(),
             'username' => $this->string()->notNull(),
             'password' => $this->string()->notNull(),
-            'created_at' => $this->timestamp(),
-            'update_at' => $this->timestamp(),
+            'created_at' => $this->dateTime(),
+            'update_at' => $this->dateTime(),
         ]);
     }
 

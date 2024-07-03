@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\form\UserForm;
 use app\models\User;
 use Yii;
 use yii\rest\Controller;
@@ -64,22 +65,64 @@ class UserController extends Controller
             ];
         }
     }
-    public function actionUser()
+    public function actionRegister()
+    {
+        $user = new UserForm();
+        $user->load(Yii::$app->request->post());
+        $user->save();
+
+        return $user;
+    }
+    public function actionGet()
     {
         $user = User::find()->all();
         return $user;
     }
-    public function actionRegister()
+
+    public function actionShow($id)
     {
-        $formData = Yii::$app->request->post();
-
-
-        $user = new User();
-        // $user->load($formData);
-        $user->username = $formData['username'];
-        $user->password = md5($formData['password']);
-        $user->save();
-
+        $user = User::findOne($id);
         return $user;
+    }
+
+    public function actionUpdate($id)
+    {
+        $user = User::findOne($id);
+        if($user === NULL) 
+        {
+            return [
+                'status' => 'false',
+                'message' => 'error'
+            ];
+        } else {
+            $user->load(Yii::$app->request->post(), '');
+            $user->update();
+            return $user;
+        }
+    }
+
+    public function actionDelete($id)
+    {
+        $user = User::findOne($id);
+        $now = (new \DateTime())->format('d-m-Y');
+
+        if ($user === NULL) {
+            return [
+                'status' => 'false',
+                'data' => [
+                    'now' => $now,
+                ],
+                'message' => 'error'
+            ];
+        } else {
+            $user->delete();
+            return [
+                'status' => 'true',
+                'data' => [
+                    'now' => $now,
+                ],
+                'message' => 'success'
+            ];
+        }
     }
 }

@@ -21,8 +21,8 @@ class m240702_094712_create_posts_table extends Migration
             'img' => $this->string()->notNull(),
             'description' => $this->text()->notNull(),
             'categories_post_id' => $this->integer()->notNull(),
-            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'created_at' => $this->dateTime(),
+            'updated_at' => $this->dateTime(),
         ]);
 
         // creates index for column `categories_post_id`

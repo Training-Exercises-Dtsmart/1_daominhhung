@@ -3,11 +3,9 @@
 namespace app\models;
 
 use Yii;
+use \app\models\base\User as BaseUser;
 
-class User extends \yii\db\ActiveRecord
+class User extends BaseUser
 {
-    public static function tableName()
-    {
-        return 'users';
-    }
+
 }

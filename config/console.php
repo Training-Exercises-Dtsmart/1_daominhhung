@@ -35,6 +35,16 @@ $config = [
         ],
     ],
     */
+    'controllerMap' => [
+        'batch' => [
+            'class' => 'schmunk42\giiant\commands\BatchController',
+            'skipTables' => ['system_db_migration', 'system_rbac_migration', 'migration'],
+            'overwrite' => true,
+            'interactive' => false,
+            'enableI18N' => false,
+            'modelNamespace' => 'app\models',
+        ]
+    ],
 ];
 
 if (YII_ENV_DEV) {

@@ -21,8 +21,8 @@ class m240702_100327_create_orders_table extends Migration
             'user_id' => $this->integer()->notNull(),
             'date' => $this->datetime()->notNull(),
             'status' => $this->integer()->notNull(),
-            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'created_at' => $this->dateTime(),
+            'updated_at' => $this->dateTime(),
         ]);
 
         // creates index for column `user_id`

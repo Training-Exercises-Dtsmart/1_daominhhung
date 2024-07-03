@@ -24,8 +24,8 @@ class m240702_100630_create_orders_detail_table extends Migration
             'totalQuantity' => $this->float()->notNull(),
             'payment' => $this->integer()->notNull(),
             'status' => $this->integer()->notNull(),
-            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'created_at' => $this->dateTime(),
+            'updated_at' => $this->dateTime(),
         ]);
 
         // creates index for column `product_id`

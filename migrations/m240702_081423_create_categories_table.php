@@ -15,8 +15,8 @@ class m240702_081423_create_categories_table extends Migration
         $this->createTable('{{%categories}}', [
             'id' => $this->primaryKey(),
             'value' => $this->string()->notNull(),
-            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'created_at' => $this->dateTime(),
+            'updated_at' => $this->dateTime(),
         ]);
     }
 

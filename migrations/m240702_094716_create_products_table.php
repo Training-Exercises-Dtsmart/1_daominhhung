@@ -25,8 +25,8 @@ class m240702_094716_create_products_table extends Migration
             'description' => $this->text()->notNull(),
             'categories_id' => $this->integer(),
             'post_id' => $this->integer()->notNull(),
-            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'created_at' => $this->dateTime(),
+            'updated_at' => $this->dateTime(),
         ]);
 
         // creates index for column `categories_id`

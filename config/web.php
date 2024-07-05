@@ -1,5 +1,7 @@
 <?php
 
+use app\modules\Module;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -51,6 +53,9 @@ $config = [
             ],
         ],
 
+    ],
+    'modules' => [
+        'api' => Module::class
     ],
     'params' => $params,
 ];

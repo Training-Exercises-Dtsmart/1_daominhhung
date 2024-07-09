@@ -18,7 +18,7 @@ class m240702_100630_create_order_detail_table extends Migration
     {
         $this->createTable('{{%order_detail}}', [
             'id' => $this->primaryKey(),
-            'cart_item_id' => $this->integer(),
+            'product_id' => $this->integer(),
             'order_id' => $this->integer(),
             'totalPrice' => $this->float(),
             'totalQuantity' => $this->float(),
@@ -31,17 +31,17 @@ class m240702_100630_create_order_detail_table extends Migration
 
         // creates index for column `product_id`
         $this->createIndex(
-            '{{%idx-order_detail-cart_item_id}}',
+            '{{%idx-order_detail-product_id}}',
             '{{%order_detail}}',
-            'cart_item_id'
+            'product_id'
         );
 
         // add foreign key for table `{{%products}}`
         $this->addForeignKey(
-            '{{%fk-order_detail-cart_item_id}}',
+            '{{%fk-order_detail-product_id}}',
             '{{%order_detail}}',
-            'cart_item_id',
-            '{{%cart_item}}',
+            'product_id',
+            '{{%product}}',
             'id',
             'CASCADE'
         );
@@ -71,13 +71,13 @@ class m240702_100630_create_order_detail_table extends Migration
     {
         // drops foreign key for table `{{%products}}`
         $this->dropForeignKey(
-            '{{%fk-order_detail-cart_item_id}}',
+            '{{%fk-order_detail-product_id}}',
             '{{%order_detail}}'
         );
 
         // drops index for column `product_id`
         $this->dropIndex(
-            '{{%idx-order_detail-cart_item_id}}',
+            '{{%idx-order_detail-product_id}}',
             '{{%order_detail}}'
         );
 

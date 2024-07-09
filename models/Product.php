@@ -9,7 +9,7 @@ use \app\models\base\Product as BaseProduct;
  */
 class Product extends BaseProduct
 {
-    public function formName()
+    public function formName(): string
     {
         return "";
     }

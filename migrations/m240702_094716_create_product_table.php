@@ -8,6 +8,7 @@ use yii\db\Migration;
  *
  * - `{{%category}}`
  * - `{{%post}}`
+ * - `{{%user}}`
  */
 class m240702_094716_create_product_table extends Migration
 {
@@ -18,6 +19,7 @@ class m240702_094716_create_product_table extends Migration
     {
         $this->createTable('{{%product}}', [
             'id' => $this->primaryKey(),
+            'user_id' => $this->integer(),
             'name' => $this->string(),
             'img' => $this->text(),
             'price' => $this->integer(),
@@ -30,31 +32,42 @@ class m240702_094716_create_product_table extends Migration
             'deleted_at' => $this->dateTime(),
         ]);
 
-        // creates index for column `categories_id`
+        $this->createIndex(
+            '{{%idx-product-user_id}}',
+            '{{%product}}',
+            'user_id'
+        );
+
+        $this->addForeignKey(
+            '{{%fk-product-user_id}}',
+            '{{%product}}',
+            'user_id',
+            '{{%user}}',
+            'id',
+            'CASCADE'
+        );
+
         $this->createIndex(
             '{{%idx-product-category_id}}',
             '{{%product}}',
             'category_id'
         );
 
-        // add foreign key for table `{{%categories}}`
         $this->addForeignKey(
             '{{%fk-product-category_id}}',
             '{{%product}}',
             'category_id',
-            '{{%category}}',
+            '{{%category_product}}',
             'id',
             'CASCADE'
         );
 
-        // creates index for column `post_id`
         $this->createIndex(
             '{{%idx-product-post_id}}',
             '{{%product}}',
             'post_id'
         );
 
-        // add foreign key for table `{{%post}}`
         $this->addForeignKey(
             '{{%fk-product-post_id}}',
             '{{%product}}',
@@ -70,6 +83,16 @@ class m240702_094716_create_product_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey(
+            '{{%fk-product-user_id}}',
+            '{{%product}}'
+        );
+
+        // drops index for column `categories_id`
+        $this->dropIndex(
+            '{{%idx-product-user_id}}',
+            '{{%product}}'
+        );
         // drops foreign key for table `{{%category}}`
         $this->dropForeignKey(
             '{{%fk-product-category_id}}',

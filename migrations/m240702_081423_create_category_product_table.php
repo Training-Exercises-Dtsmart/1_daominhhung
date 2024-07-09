@@ -3,16 +3,16 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%category_post}}`.
+ * Handles the creation of table `{{%category_product}}`.
  */
-class m240702_081424_create_category_post_table extends Migration
+class m240702_081423_create_category_product_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%category_post}}', [
+        $this->createTable('{{%category_product}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
             'name' => $this->string(),
@@ -22,14 +22,14 @@ class m240702_081424_create_category_post_table extends Migration
         ]);
 
         $this->createIndex(
-            '{{%idx-category_post-user_id}}',
-            '{{%category_post}}',
+            '{{%idx-category_product-user_id}}',
+            '{{%category_product}}',
             'user_id'
         );
 
         $this->addForeignKey(
-            '{{%fk-category_post-user_id}}',
-            '{{%category_post}}',
+            '{{%fk-category_product-user_id}}',
+            '{{%category_product}}',
             'user_id',
             '{{%user}}',
             'id',
@@ -43,16 +43,15 @@ class m240702_081424_create_category_post_table extends Migration
     public function safeDown()
     {
         $this->dropForeignKey(
-            '{{%fk-category_post-user_id}}',
-            '{{%category_post}}'
+            '{{%fk-category_product-user_id}}',
+            '{{%category_product}}'
         );
 
         // drops index for column `categories_id`
         $this->dropIndex(
-            '{{%idx-category_post-user_id}}',
-            '{{%category_post}}'
+            '{{%idx-category_product-user_id}}',
+            '{{%category_product}}'
         );
-
-        $this->dropTable('{{%category_post}}');
+        $this->dropTable('{{%category_product}}');
     }
 }

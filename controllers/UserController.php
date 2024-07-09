@@ -78,7 +78,9 @@ class UserController extends Controller
 
     public function actionDelete($id)
     {
-        $user = User::findOne($id);
+        $user = User::find()->select('id')->where(['id' => $id])->one();
+        dd($user);die;
+
         if (!$user) {
             return $this->json(false, error(), 'User not found');
         } else {

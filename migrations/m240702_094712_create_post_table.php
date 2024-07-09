@@ -17,6 +17,7 @@ class m240702_094712_create_post_table extends Migration
     {
         $this->createTable('{{%post}}', [
             'id' => $this->primaryKey(),
+            'user_id' => $this->integer(),
             'title' => $this->string(),
             'img' => $this->string(),
             'description' => $this->text(),
@@ -25,6 +26,22 @@ class m240702_094712_create_post_table extends Migration
             'updated_at' => $this->dateTime(),
             'deleted_at' => $this->dateTime(),
         ]);
+
+        $this->createIndex(
+            '{{%idx-post-user_id}}',
+            '{{%post}}',
+            'user_id'
+        );
+
+        // add foreign key for table `{{%category_post}}`
+        $this->addForeignKey(
+            '{{%fk-post-user_id}}',
+            '{{%post}}',
+            'user_id',
+            '{{%user}}',
+            'id',
+            'CASCADE'
+        );
 
         // creates index for column `categories_post_id`
         $this->createIndex(
@@ -49,6 +66,16 @@ class m240702_094712_create_post_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey(
+            '{{%fk-post-user_id}}',
+            '{{%post}}'
+        );
+
+        // drops index for column `categories_post_id`
+        $this->dropIndex(
+            '{{%idx-post-user_id}}',
+            '{{%post}}'
+        );
         // drops foreign key for table `{{%category_post}}`
         $this->dropForeignKey(
             '{{%fk-post-category_post_id}}',

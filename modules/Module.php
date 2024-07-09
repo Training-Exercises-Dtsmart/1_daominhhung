@@ -9,7 +9,6 @@ class Module extends BaseModule
     public function init()
     {
         $this->defaultRoute = "product";
-        
         parent::init();
     }
 }

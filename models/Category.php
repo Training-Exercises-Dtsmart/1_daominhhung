@@ -9,5 +9,8 @@ use \app\models\base\Category as BaseCategory;
  */
 class Category extends BaseCategory
 {
-
+    public function formName()
+    {
+        return "";
+    }
 }

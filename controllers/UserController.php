@@ -2,10 +2,9 @@
 
 namespace app\controllers;
 
-use app\models\form\UserForm;
-use app\models\User;
 use Yii;
-use yii\rest\Controller;
+use app\models\User;
+use app\models\form\UserForm;
 
 class UserController extends Controller
 {
@@ -16,59 +15,34 @@ class UserController extends Controller
 
         //Check Input
         if (isset($formData['username']) && isset($formData['password'])) {
-
             //Input Username , Password
             $inputUsername = $formData['username'];
             $inputPassword = $formData['password'];
 
             //Tạo Validate Password , strlen kiểm tra độ dài PHP dưới 8
             if (strlen($inputPassword) < 8) {
-                return [
-                    'status' => 'false',
-                    'message' => 'Password phải có ít nhất 8 ký tự',
-                ];
+                return $this->json(false, error(), 'Password phải có ít nhất 8 ký tự');
             }
             //Gán md5 cho password
             $inputPasswordHashMd5 = md5($inputPassword);
-
             $user = User::find()->all();
             foreach ($user as $usres) {
                 $dataUsername = $usres->username;
                 $dataPassword = $usres->password;
             }
-
-            //Now là lấy ngày hôm nay theo format day-month-year
-            $now = (new \DateTime())->format('d-m-Y');
-
             //Ở đây là so sánh username và password trả về dữ liệu
             if ($inputUsername === $dataUsername && $inputPasswordHashMd5 === $dataPassword) {
-                return [
-                    'status' => 'true',
-                    'data' => [
-                        'now' => $now,
-                    ],
-                    'message' => 'success'
-                ];
+                return $this->json(true, $user, 'success');
             } else {
-                return [
-                    'status' => 'false',
-                    'data' => [
-                        'now' => $now,
-                    ],
-                    'message' => 'error'
-                ];
+                return $this->json(false, $user->error, 'error');
             }
-        } else {
-            return [
-                'status' => 'false',
-                'message' => 'Thiếu thông tin đăng nhập',
-            ];
         }
+        return $this->json(false, error(), 'Thiếu thông tin đăng nhập');
     }
     public function actionRegister()
     {
         $user = new UserForm();
-        $user->load(Yii::$app->request->post());
+        $user->load(Yii::$app->request->post(), '');
         $user->save();
 
         return $user;
@@ -82,47 +56,34 @@ class UserController extends Controller
     public function actionShow($id)
     {
         $user = User::findOne($id);
-        return $user;
+        if(!$user)
+        {
+            return $this->json(false, error(), 'User not found');
+        }
+        return $this->json(true, $user, 'success');
     }
 
     public function actionUpdate($id)
     {
         $user = User::findOne($id);
-        if($user === NULL) 
+        if(!$user)
         {
-            return [
-                'status' => 'false',
-                'message' => 'error'
-            ];
+            return  $this->json(false, error(), 'error');
         } else {
             $user->load(Yii::$app->request->post(), '');
             $user->update();
-            return $user;
+            return $this->json(true, $user, 'success');
         }
     }
 
     public function actionDelete($id)
     {
         $user = User::findOne($id);
-        $now = (new \DateTime())->format('d-m-Y');
-
-        if ($user === NULL) {
-            return [
-                'status' => 'false',
-                'data' => [
-                    'now' => $now,
-                ],
-                'message' => 'error'
-            ];
+        if (!$user) {
+            return $this->json(false, error(), 'User not found');
         } else {
             $user->delete();
-            return [
-                'status' => 'true',
-                'data' => [
-                    'now' => $now,
-                ],
-                'message' => 'success'
-            ];
+            return $this->json(true, $user, 'success');
         }
     }
 }

@@ -9,11 +9,11 @@ class Product extends BaseProduct
 {
     public function fields()
     {
-        return array_merge(parent::fields(), ['categories_value' => 'categoriesValue', 'post_title' => 'postTitle']);
+        return array_merge(parent::fields(), ['category_name' => 'categoryName', 'post_title' => 'postTitle']);
     }
-    public function getCategoriesValue()
+    public function getCategoryName()
     {
-        return $this->categories->value;
+        return isset($this->category) ? $this->category->name : null;
     }
     public function getPostTitle()
     {

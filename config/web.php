@@ -40,6 +40,9 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+//                    'logFile' => '@app/runtime/logs/app.log',
+//                    'maxFileSize' => 1024 * 2,
+//                    'maxLogFiles' => 10,
                 ],
             ],
         ],

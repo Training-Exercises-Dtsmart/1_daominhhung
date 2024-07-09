@@ -2,6 +2,9 @@ Ngày 2
 
 ![diagram](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/d86bd40f-4cde-43bf-a833-b774fb88054d)
 
+Ngày 09/09/2024
+Refactor in modules (Product, User)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/a994ccbb-5e67-480e-9631-e662baf3cc46)
 
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">

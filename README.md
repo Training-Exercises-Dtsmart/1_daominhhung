@@ -1,3 +1,8 @@
+Ngày 2
+
+![diagram](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/d86bd40f-4cde-43bf-a833-b774fb88054d)
+
+
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">

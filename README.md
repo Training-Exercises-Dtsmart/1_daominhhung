@@ -1,6 +1,6 @@
 Ngày 2
 
-![diagram](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/d86bd40f-4cde-43bf-a833-b774fb88054d)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/9fbefc6e-ff65-46b3-a574-f47a9d55df8c)
 
 Ngày 09/09/2024
 Refactor in modules (Product, User)

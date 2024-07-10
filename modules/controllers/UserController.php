@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function actionIndex()
     {
-        $user = User::find();
+        $user = new UserForm();
         if(empty($user))
         {
             return $this->json(false, [], 'User not found', HTTPS_CODE::NOUTFOUND_CODE);
@@ -22,7 +22,21 @@ class UserController extends Controller
         $provider = Pagination::getPagination($user,10, SORT_ASC);
         return $this->json(true, ['data' => $provider], 'success', HTTPS_CODE::SUCCESS_CODE);
     }
-    public function actionCreate()
+    public function actionLogin()
+    {
+        $username = Yii::$app->getRequest()->post('username');
+        $password = Yii::$app->getRequest()->post('password');
+
+        if (!$username || !$password) {
+            return $this->json(false, [], 'Missing required parameters: username, password', HTTPS_CODE::BADREQUEST_CODE);
+        }
+        $user = User::findOne(['username' => $username]);
+        if (!$user || $user->password !== md5($password)) {
+            return $this->json(false, [], 'User not found or incorrect password', HTTPS_CODE::NOUTFOUND_CODE);
+        }
+        return $this->json(true, ['data' => $user], 'success', HTTPS_CODE::SUCCESS_CODE);
+    }
+    public function actionRegister()
     {
         $user = new UserForm();
         $user->load(Yii::$app->request->post(), '');

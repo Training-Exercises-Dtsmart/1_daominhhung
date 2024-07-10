@@ -26,7 +26,6 @@ class m240702_094716_create_product_table extends Migration
             'stock' => $this->integer()->unsigned(),
             'description' => $this->text(),
             'category_id' => $this->integer(),
-            'post_id' => $this->integer(),
             'created_at' => $this->dateTime(),
             'updated_at' => $this->dateTime(),
             'deleted_at' => $this->dateTime(),
@@ -61,21 +60,6 @@ class m240702_094716_create_product_table extends Migration
             'id',
             'CASCADE'
         );
-
-        $this->createIndex(
-            '{{%idx-product-post_id}}',
-            '{{%product}}',
-            'post_id'
-        );
-
-        $this->addForeignKey(
-            '{{%fk-product-post_id}}',
-            '{{%product}}',
-            'post_id',
-            '{{%post}}',
-            'id',
-            'CASCADE'
-        );
     }
 
     /**
@@ -87,7 +71,6 @@ class m240702_094716_create_product_table extends Migration
             '{{%fk-product-user_id}}',
             '{{%product}}'
         );
-
         // drops index for column `categories_id`
         $this->dropIndex(
             '{{%idx-product-user_id}}',
@@ -98,25 +81,11 @@ class m240702_094716_create_product_table extends Migration
             '{{%fk-product-category_id}}',
             '{{%product}}'
         );
-
         // drops index for column `categories_id`
         $this->dropIndex(
             '{{%idx-product-category_id}}',
             '{{%product}}'
         );
-
-        // drops foreign key for table `{{%post}}`
-        $this->dropForeignKey(
-            '{{%fk-product-post_id}}',
-            '{{%product}}'
-        );
-
-        // drops index for column `post_id`
-        $this->dropIndex(
-            '{{%idx-product-post_id}}',
-            '{{%product}}'
-        );
-
         $this->dropTable('{{%product}}');
     }
 }

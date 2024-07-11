@@ -26,6 +26,34 @@ Ngày 09/09/2024
 Refactor in modules (Product, User)
 ![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/a994ccbb-5e67-480e-9631-e662baf3cc46)
 
+Ngày 10/07.2024: Kết quả bài test
+Employee
+
+Register 
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/a46205be-0fb2-48d0-a29f-203791c1365b)
+Login 
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/0c811beb-be96-45e2-8ac2-2203f8ca426f)
+
+Request 
+
+View request from Staff:
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/d38d0cf7-e504-420e-b067-7a3223e0aaf7)
+View request from Hr:
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/eea6322e-557a-49b8-bbaf-cfa9837ede48)
+
+Create Request 
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/4af5f535-5677-4d9d-a25b-2a8aa4cb9df2)
+Update Request 
+fromm Staff 
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/16f8db79-58e5-41f1-aef1-112d41f95535)
+from HR
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/147d8955-cdb6-46a0-9d8a-b1452b2f3f0a)
+
+
+
+
+
+
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">

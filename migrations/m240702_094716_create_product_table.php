@@ -21,7 +21,7 @@ class m240702_094716_create_product_table extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
             'name' => $this->string(),
-            'img' => $this->text(),
+            'image' => $this->text(),
             'price' => $this->integer(),
             'stock' => $this->integer()->unsigned(),
             'description' => $this->text(),
@@ -29,6 +29,7 @@ class m240702_094716_create_product_table extends Migration
             'created_at' => $this->dateTime(),
             'updated_at' => $this->dateTime(),
             'deleted_at' => $this->dateTime(),
+            'status' => $this->integer()->defaultValue(0),
         ]);
 
         $this->createIndex(

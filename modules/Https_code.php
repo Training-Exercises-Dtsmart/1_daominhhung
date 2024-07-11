@@ -10,5 +10,4 @@ class HTTPS_CODE
     const BADREQUEST_CODE = 400;
     const NOUTFOUND_CODE = 404;
     const ERROR_CODE = 500;
-
 }

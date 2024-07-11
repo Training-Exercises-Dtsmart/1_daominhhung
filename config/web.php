@@ -21,18 +21,12 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
+//        'user' => [
+//            'identityClass' => 'app\models\User',
+//            'enableAutoLogin' => true,
+//        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-        ],
-        'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -40,14 +34,33 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
-//                    'logFile' => '@app/runtime/logs/app.log',
-//                    'maxFileSize' => 1024 * 2,
-//                    'maxLogFiles' => 10,
+                    'logFile' => '@runtime/logs/queue.log',
                 ],
             ],
         ],
         'db' => $db,
+        'user' => [
+            'identityClass' => 'app\modules\models\User',
+            'enableAutoLogin' => true,
+            'loginUrl' => ['site/login'],
+        ],
 
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'port' => '587',
+                'username' => 'huysanti123456@gmail.com',
+                'password' => 'buxk ghay epzs gclb',
+                'encryption' => 'tls',
+            ],
+        ],
+        'queue' => [
+            'class' => \yii\queue\file\Queue::class,
+            'path' => '@runtime/queue',
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -55,7 +68,6 @@ $config = [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ],
         ],
-
     ],
     'modules' => [
         'api' => Module::class

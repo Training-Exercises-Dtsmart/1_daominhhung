@@ -45,11 +45,9 @@ class CaculateController extends Controller
         if (isset($formData['number'])) {
             //Input nhập theo dạng ví dụ 2,3,4,5
             $numberForm = $formData['number'];
-            
             //Dưới đây tách chuỗi ra mảng
             $numbers = explode(',', $numberForm);
             $total = 0;
-
             //foreach mảng ra rồi cộng lại
             foreach ($numbers as $number) {
                 $total += intval($number);
@@ -59,7 +57,6 @@ class CaculateController extends Controller
             $average = $count > 0 ? $total / $count : 0;
             //Làm tròn
             $average = round($average, 2);
-
             return $this->json(true, $average, 'succes', HTTPS_CODE::SUCCESS_CODE);
         }
         return $this->json(false, $formData->getError(), 'Thiếu thông tin nhapso', HTTPS_CODE::BADREQUEST_CODE);

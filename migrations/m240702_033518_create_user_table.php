@@ -17,9 +17,13 @@ class m240702_033518_create_user_table extends Migration
             'image' => $this->string(),
             'username' => $this->string(),
             'password' => $this->string(),
+            'address' => $this->string(),
+            'phone' => $this->integer()->unsigned(),
+            'access_token' => $this->string(),
             'created_at' => $this->dateTime(),
             'updated_at' => $this->dateTime(),
             'deleted_at' => $this->dateTime(),
+            'status' => $this->integer()->defaultValue(0),
         ]);
     }
 

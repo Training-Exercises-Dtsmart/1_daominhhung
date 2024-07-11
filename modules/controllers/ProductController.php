@@ -7,7 +7,6 @@ use app\modules\models\pagination\Pagination;
 use Yii;
 use app\modules\models\form\ProductForm;
 use app\modules\models\search\ProductSearch;
-use app\controllers\Controller;
 use app\modules\models\Product;
 use yii\data\ActiveDataProvider;
 use yii\rest\Serializer;
@@ -18,7 +17,6 @@ class ProductController extends Controller
 {
     public function actionIndex()
     {
-        Yii::info('This is an informational message', __METHOD__);
         $products = Product::find();
 
         if(!$products->exists())

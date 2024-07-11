@@ -19,6 +19,7 @@ class m240702_100327_create_order_table extends Migration
             'id' => $this->primaryKey(),
             'code_order' => $this->string(),
             'user_id' => $this->integer(),
+            'order_address' => $this->string(),
             'date' => $this->datetime(),
             'status' => $this->integer(),
             'created_at' => $this->dateTime(),

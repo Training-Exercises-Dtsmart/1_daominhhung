@@ -6,7 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','queue'],
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -22,12 +22,37 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/queue.log',
                 ],
             ],
         ],
         'db' => $db,
+
+        'queue' => [
+            'class' => \yii\queue\file\Queue::class,
+            'path' => '@runtime/queue',
+        ],
+
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'port' => '587',
+                'username' => 'huysanti123456@gmail.com',
+                'password' => 'buxk ghay epzs gclb',
+                'encryption' => 'tls',
+            ],
+        ],
+
+//        'authManager' => [
+//            'class' => 'yii\rbac\DbManager',
+//        ],
     ],
     'params' => $params,
+
+
     /*
     'controllerMap' => [
         'fixture' => [ // Fixture generation command line.
@@ -43,7 +68,7 @@ $config = [
             'interactive' => false,
             'enableI18N' => false,
             'modelNamespace' => 'app\models',
-        ]
+        ],
     ],
 ];
 

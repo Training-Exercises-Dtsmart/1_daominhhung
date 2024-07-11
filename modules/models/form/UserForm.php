@@ -1,17 +1,14 @@
 <?php
 namespace app\modules\models\form;
 
+use Yii;
 use app\models\User;
 class UserForm extends User
 {
-    public $username;
-    public $password;
-
     public function rules(): array
     {
         return array_merge(parent::rules(), [
             [["username", 'password'], "required"],
-            ['username', 'string', 'min' => 3, 'max' => 50],
             ['password', 'string', 'min' => 6],
         ]);
     }
@@ -20,10 +17,15 @@ class UserForm extends User
     {
         if (parent::beforeSave($insert)) {
             if ($this->password !== null) {
-                $this->password = md5($this->password);
+                $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
             }
+            $this->access_token = Yii::$app->security->generateRandomString();
             return true;
         }
         return false;
+    }
+    public function validatePassword($password)
+    {
+        return Yii::$app->getSecurity()->validatePassword($password, $this->password);
     }
 }

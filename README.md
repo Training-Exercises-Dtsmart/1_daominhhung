@@ -31,8 +31,17 @@ from HR
 ![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/147d8955-cdb6-46a0-9d8a-b1452b2f3f0a)
 
 
+Ngày  11/07/2024
+SendMail and config.php
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/2a19d612-48ab-45b2-8306-42ceb65f88dc)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/7ec608a5-8f5a-4c2f-ac77-ca9e1368b492)
 
+Queue SendMail 
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/557ba055-b715-4822-8d60-ade2ff8f13f9)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/99861418-8ef2-4d97-bf9a-577425f4b896)
 
+Result 
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/e859052a-efbb-410f-a304-81b00bdd7096)
 
 
 <p align="center">

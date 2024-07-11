@@ -2,6 +2,26 @@ Ngày 2
 
 ![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/9fbefc6e-ff65-46b3-a574-f47a9d55df8c)
 
+Login 
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/96d76538-75f3-46b2-9bda-dae6f4c33cda)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/a2c8374a-5150-4085-9816-e9660158ddc6)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/f7c9ff5c-66d5-467a-bcf3-169df936ae86)
+
+Total
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/6ba2d706-6547-45ea-911b-652c1e661c5e)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/62524296-200e-4eeb-8154-19b1f0cdc07c)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/41a75fd8-0af1-4f18-bf38-048b4b56081a)
+
+Devide
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/3419e529-393e-4c81-9b20-75213570d816)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/13fbf45c-8041-487b-add7-a7b24ef8216d)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/d25d699d-3ba8-47c7-9aad-b11d00703aff)
+
+Average
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/fb5ff8e5-3ea2-4352-a4f0-82c40faeb95e)
+![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/5dfc264d-0d17-4a33-a72a-c4029e521111)
+
+
 Ngày 09/09/2024
 Refactor in modules (Product, User)
 ![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/a994ccbb-5e67-480e-9631-e662baf3cc46)

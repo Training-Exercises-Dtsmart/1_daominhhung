@@ -46,9 +46,10 @@ $config = [
             ],
         ],
 
-//        'authManager' => [
-//            'class' => 'yii\rbac\DbManager',
-//        ],
+       'authManager' => [
+           'class' => 'yii\rbac\DbManager',
+           'defaultRoles' => ['admin', 'author'],
+       ],
     ],
     'params' => $params,
 

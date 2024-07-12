@@ -17,7 +17,7 @@ class SiteController extends Controller
     }
     public function actionSendmailqueue()
     {
-        $job = new \app\modules\Queue\SendEmailJob();
+        $job = new SendEmailJob();
         Yii::$app->queue->push($job);
 
         return ['status' => 'success', 'message' => 'Đã đưa công việc gửi email vào hàng đợi.'];

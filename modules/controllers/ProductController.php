@@ -3,18 +3,44 @@
 namespace app\modules\controllers;
 
 
-use app\modules\models\pagination\Pagination;
 use Yii;
+use app\modules\models\pagination\Pagination;
 use app\modules\models\form\ProductForm;
 use app\modules\models\search\ProductSearch;
 use app\modules\models\Product;
-use yii\data\ActiveDataProvider;
-use yii\rest\Serializer;
 use app\modules\HTTPS_CODE;
-
+use yii\filters\AccessControl;
+use yii\filters\auth\HttpBearerAuth;
 
 class ProductController extends Controller
 {
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::class,
+        ];
+
+        $behaviors['access'] = [
+            'class' => AccessControl::class,
+            'rules' => [
+                [
+                    'allow' => true,
+                    'actions' => ['create', 'update', 'delete'],
+                    'roles' => ['admin'],
+                ],
+                [
+                    'allow' => true,
+                    'actions' => ['index', 'search', 'searchcategories'],
+                    'roles' => ['@'],
+                ],
+            ],
+        ];
+
+        return $behaviors;
+    }
+
     public function actionIndex()
     {
         $products = Product::find();

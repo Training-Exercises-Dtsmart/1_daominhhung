@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\Queue;
+namespace app\modules\models\queue;
 
 use Yii;
 use yii\base\BaseObject;
@@ -13,8 +13,6 @@ class SendEmailJob implements JobInterface
         foreach ($emails as $email) {
             $job = new SendMail([
                 'email' => $email,
-                'subject' => 'Xin Chào',
-                'content' => 'Xin chào!' . ' ' . $email
             ]);
             Yii::$app->queue->push($job);
             Yii::info('Đã đưa công việc gửi email cho ' . $email . ' vào hàng đợi.', 'queue');

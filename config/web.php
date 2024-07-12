@@ -68,6 +68,10 @@ $config = [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ],
         ],
+        
+       'authManager' => [
+        'class' => 'yii\rbac\DbManager',
+    ],
     ],
     'modules' => [
         'api' => Module::class

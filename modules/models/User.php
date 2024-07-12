@@ -35,6 +35,7 @@ class User extends BaseUser implements IdentityInterface
             'id',
             'image',
             'username',
+            'access_token',
             'created_at',
             'updated_at',
             'deleted_at',

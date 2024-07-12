@@ -32,6 +32,11 @@ class ProductController extends Controller
                 ],
                 [
                     'allow' => true,
+                    'actions' => ['create'],
+                    'roles' => ['author'],
+                ],
+                [
+                    'allow' => true,
                     'actions' => ['index', 'search', 'searchcategories'],
                     'roles' => ['@'],
                 ],

@@ -4,8 +4,8 @@ namespace app\modules\models\form;
 use Yii;
 use app\models\User;
 use yii\base\Exception;
-use yii\web\UploadedFile;
 use yii\helpers\Json;
+use yii\web\UploadedFile;
 
 class UserForm extends User
 {
@@ -30,6 +30,7 @@ class UserForm extends User
         return Yii::$app->security->generateRandomString();
     }
 
+
     /**
      * @throws Exception
      * @throws \yii\db\Exception
@@ -40,6 +41,7 @@ class UserForm extends User
         if (!$user || !$user->validatePassword($password)) {
             return false;
         }
+        $user->image =
         $user->access_token = self::getAccessToken();
         if ($user->save()) {
             return $user;
@@ -57,15 +59,10 @@ class UserForm extends User
         if (!$this->validate()) {
             return false;
         }
-        $avatarFile = UploadedFile::getInstance($this, 'image');
-        if ($avatarFile) {
-            $uploadPath = Yii::getAlias('@app/modules/models/upload/');
-            $filename = uniqid() . '.' . $avatarFile->extension;
-            $filePath = $uploadPath . $filename;
-            if (!$avatarFile->saveAs($filePath)) {
-                return false;
-            }
-            $this->image = $filename;
+
+        $uploadedImage = $this->uploadFile($userData);
+        if ($uploadedImage) {
+            $this->image = $uploadedImage;
         }
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
         $this->access_token = self::getAccessToken();
@@ -85,6 +82,24 @@ class UserForm extends User
             $user->access_token = null;
             return $user->save();
         }
+        return false;
+    }
+
+    public function uploadFile($userData)
+    {
+        if ($avatarFile = UploadedFile::getInstanceByName('img')) {
+            $uploadPath = Yii::getAlias('@app/modules/models/upload/user/');
+            $filename = uniqid() . '.' . $avatarFile->extension;
+            $filePath = $uploadPath . $filename;
+
+            if ($avatarFile->saveAs($filePath)) {
+                $this->image = $filename;
+                return $filename;
+            } else {
+                return false;
+            }
+        }
+
         return false;
     }
 }

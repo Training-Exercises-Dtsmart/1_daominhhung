@@ -8,6 +8,15 @@ use yii\queue\JobInterface;
 class SendMail extends BaseObject implements JobInterface
 {
     public $email;
+    /**
+     * @var mixed
+     */
+    private $content;
+    /**
+     * @var mixed
+     */
+    private $subject;
+
     public function execute($queue)
     {
         try {

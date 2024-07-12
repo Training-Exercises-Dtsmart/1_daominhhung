@@ -2,7 +2,7 @@
 namespace app\modules\controllers;
 
 use Yii;
-use app\modules\Queue\SendEmailJob;
+use app\modules\models\queue\SendEmailJob;
 class SiteController extends Controller
 {
     public function actionSendmail()

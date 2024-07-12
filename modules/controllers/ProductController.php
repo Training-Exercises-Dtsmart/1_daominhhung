@@ -9,6 +9,7 @@ use app\modules\models\form\ProductForm;
 use app\modules\models\search\ProductSearch;
 use app\modules\models\Product;
 use app\modules\HTTPS_CODE;
+use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBearerAuth;
 
@@ -83,15 +84,18 @@ class ProductController extends Controller
         return $this->json(true, $dataProvider, "success", HTTPS_CODE::SUCCESS_CODE);
     }
 
+    /**
+     * @throws Exception
+     */
     public function actionCreate()
     {
         $product = new ProductForm();
-        $product->load(Yii::$app->request->post(), '');
-
+        $data = $product->load(Yii::$app->request->post());
         if(!$product->validate() || !$product->save())
         {
             return $this->json(false, $product->getErrors(), HTTPS_CODE::BADREQUEST_CODE);
         }
+        $product->uploadFiles($data);
         return $this->json(true, ['product' => $product], "success", HTTPS_CODE::SUCCESS_CODE);
     }
     

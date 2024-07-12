@@ -50,7 +50,7 @@ class UserController extends Controller
     public function actionRegister(): array
     {
         $user = new UserForm();
-        $userData = Yii::$app->request->post();
+        $userData = $user->load(Yii::$app->request->post(),'');
         if (!$user->register($userData)) {
             return $this->json(false, ['data' => $user], 'User registered fail', HTTPS_CODE::BADREQUEST_CODE);
         }

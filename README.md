@@ -44,6 +44,17 @@ Result
 ![image](https://github.com/Training-Exercises-Dtsmart/1_daominhhung/assets/100175597/e859052a-efbb-410f-a304-81b00bdd7096)
 
 
+RBAC date: 12/07/2024
+RBAC for Product: create , delete , update by admin 
+![image](https://github.com/user-attachments/assets/11a65ab9-8ee8-47f6-9af3-37d75a99331c)
+
+Result 
+Update by author 
+![image](https://github.com/user-attachments/assets/d58002d5-5291-4e8d-9c85-b917c1dc0113)
+Update by admin 
+![image](https://github.com/user-attachments/assets/6f55aac5-2b41-4e16-8571-766bf4eee10f)
+
+
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">

@@ -29,8 +29,11 @@ $config = [
         'db' => $db,
 
         'queue' => [
-            'class' => \yii\queue\file\Queue::class,
-            'path' => '@runtime/queue',
+            'class' => \yii\queue\db\Queue::class,
+            'db' => 'db',
+            'tableName' => '{{%queue}}',
+            'channel' => 'default',
+            'mutex' => \yii\mutex\MysqlMutex::class,
         ],
 
         'mailer' => [

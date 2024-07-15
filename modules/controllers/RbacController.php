@@ -11,19 +11,19 @@ class RbacController extends Controller
     {
         $auth = Yii::$app->authManager;
 
-        $createPost = $auth->createPermission('create-post');
-        $createPost->description = 'Create a post';
+        $createPost = $auth->createPermission('create');
+        $createPost->description = 'Create';
         $auth->add($createPost);$auth = Yii::$app->authManager;
         $auth->removeAll();
 
         // add "createProduct" permission
-        $createPost = $auth->createPermission('createProduct');
-        $createPost->description = 'Create a product';
+        $createPost = $auth->createPermission('create');
+        $createPost->description = 'Create';
         $auth->add($createPost);
 
         // add "updateProduct" permission
-        $updatePost = $auth->createPermission('updateProduct');
-        $updatePost->description = 'Update product';
+        $updatePost = $auth->createPermission('update');
+        $updatePost->description = 'Update';
         $auth->add($updatePost);
 
         // add "author" role and give this role the "createProduct" permission

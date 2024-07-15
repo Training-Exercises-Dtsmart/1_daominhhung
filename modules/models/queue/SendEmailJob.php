@@ -3,10 +3,14 @@ namespace app\modules\models\queue;
 
 use Yii;
 use yii\base\BaseObject;
+use yii\db\Exception;
 use yii\queue\JobInterface;
 
 class SendEmailJob implements JobInterface
 {
+    /**
+     * @throws Exception
+     */
     public function execute($queue)
     {
         $emails = Yii::$app->db->createCommand('SELECT username FROM user')->queryColumn();

@@ -15,37 +15,7 @@ use yii\filters\auth\HttpBearerAuth;
 
 class ProductController extends Controller
 {
-    public function behaviors()
-    {
-        $behaviors = parent::behaviors();
 
-        $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::class,
-        ];
-
-        $behaviors['access'] = [
-            'class' => AccessControl::class,
-            'rules' => [
-                [
-                    'allow' => true,
-                    'actions' => ['create', 'update', 'delete'],
-                    'roles' => ['admin'],
-                ],
-                [
-                    'allow' => true,
-                    'actions' => ['create'],
-                    'roles' => ['author'],
-                ],
-                [
-                    'allow' => true,
-                    'actions' => ['index', 'search', 'searchcategories'],
-                    'roles' => ['@'],
-                ],
-            ],
-        ];
-
-        return $behaviors;
-    }
 
     public function actionIndex()
     {

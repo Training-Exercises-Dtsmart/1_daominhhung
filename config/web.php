@@ -57,9 +57,18 @@ $config = [
                 'encryption' => 'tls',
             ],
         ],
+//        'queue' => [
+////            'class' => \yii\queue\file\Queue::class,
+////            'path' => '@runtime/queue',
+//            'class' => \yii\queue\sync\Queue::class,
+//            'handle' => true, // if tasks should be executed immediately
+//
         'queue' => [
-            'class' => \yii\queue\file\Queue::class,
-            'path' => '@runtime/queue',
+            'class' => \yii\queue\db\Queue::class,
+            'db' => 'db',
+            'tableName' => '{{%queue}}',
+            'channel' => 'default',
+            'mutex' => \yii\mutex\MysqlMutex::class,
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -73,8 +82,18 @@ $config = [
         'class' => 'yii\rbac\DbManager',
     ],
     ],
+//    'modules' => [
+//        'api' => Module::class
+//    ],
     'modules' => [
-        'api' => Module::class
+        'api' => [
+            'class' => 'yii\base\Module',
+            'modules' => [
+                'v1' => [
+                    'class' => 'app\modules\Module',
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];

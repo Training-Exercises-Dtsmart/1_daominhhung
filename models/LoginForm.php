@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\form\UserForm;
 use Yii;
 use yii\base\Model;
 
@@ -57,7 +58,7 @@ class LoginForm extends Model
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
      */
-    public function login()
+    public function login(): bool
     {
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
@@ -68,12 +69,12 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return \app\modules\models\form\UserForm
      */
-    public function getUser()
+    public function getUser(): \app\modules\models\form\UserForm
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = \app\modules\models\form\UserForm::findByUsername($this->username);
         }
 
         return $this->_user;

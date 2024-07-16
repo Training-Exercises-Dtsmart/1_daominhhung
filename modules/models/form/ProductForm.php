@@ -18,7 +18,6 @@ class ProductForm extends Product
         ]);
     }
 
-
     public function uploadFile($data)
     {
         $avatarFile = UploadedFile::getInstanceByName('image');

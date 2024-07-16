@@ -29,6 +29,13 @@ class User extends BaseUser implements IdentityInterface
     {
         return static::findOne(['access_token' => $token]);
     }
+
+    public function formName()
+    {
+        return '';
+    }
+
+
     public function fields(): array
     {
         return [

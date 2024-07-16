@@ -58,11 +58,9 @@ $config = [
             ],
         ],
 //        'queue' => [
-////            'class' => \yii\queue\file\Queue::class,
-////            'path' => '@runtime/queue',
-//            'class' => \yii\queue\sync\Queue::class,
-//            'handle' => true, // if tasks should be executed immediately
-//
+//            'class' => \yii\queue\file\Queue::class,
+//            'path' => '@runtime/queue',
+//          ],
         'queue' => [
             'class' => \yii\queue\db\Queue::class,
             'db' => 'db',

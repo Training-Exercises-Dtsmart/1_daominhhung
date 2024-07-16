@@ -8,15 +8,15 @@ use yii\data\ActiveDataProvider;
 class ProductSearch extends Product
 {
     public $keyword;
-    public function rules()
+    public function rules(): array
     {
         return [
-            [['id', 'category_id', 'post_id'], 'integer'],
+            [['id', 'category_id'], 'integer'],
             [['name', 'created_at', 'updated_at', 'deleted_at', 'keyword'], 'safe'],
         ];
     }
 
-    public function search($params)
+    public function search($params): ActiveDataProvider
     {
         $query = Product::find()->joinWith('category');
         $dataProvider = new ActiveDataProvider([
@@ -30,7 +30,7 @@ class ProductSearch extends Product
             'id' => $this->id,
             'product.name' => $this->name,
         ]);
-        $query->andFilterWhere(["or",["LIKE", "category.name", $this->keyword]]);
+        $query->andFilterWhere(["or",["LIKE", "category_product.name", $this->keyword]]);
         return $dataProvider;
     }
 }

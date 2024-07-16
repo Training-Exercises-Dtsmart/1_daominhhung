@@ -2,7 +2,7 @@
 namespace app\modules\models\form;
 
 use Yii;
-use app\models\User;
+use app\modules\models\User;
 use yii\base\Exception;
 use yii\helpers\Json;
 use yii\web\UploadedFile;
@@ -12,11 +12,18 @@ class UserForm extends User
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            [['username', 'password'], "required"],
+            [['username', 'password'], 'required'],
+            ['username', 'email'],
             ['password', 'string', 'min' => 6],
             [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ]);
     }
+
+    public static function findByUsername($username): ?UserForm
+    {
+        return static::findOne(['username' => $username]);
+    }
+
     public function validatePassword($password): bool
     {
         return Yii::$app->getSecurity()->validatePassword($password, $this->password);
@@ -64,6 +71,7 @@ class UserForm extends User
         if ($uploadedImage) {
             $this->image = $uploadedImage;
         }
+
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
         $this->access_token = self::getAccessToken();
 

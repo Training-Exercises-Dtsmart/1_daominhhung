@@ -2,6 +2,7 @@
 
 namespace app\modules\controllers;
 
+use app\modules\models\form\SignUp;
 use Yii;
 use app\modules\models\form\UserForm;
 use app\modules\models\User;
@@ -16,31 +17,23 @@ class UserController extends Controller
     public function actionIndex(): array
     {
         $user = User::find();
-        if(empty($user))
+        if($user)
         {
-            return $this->json(false, [], 'User not found', HTTPS_CODE::NOUTFOUND_CODE);
+            $pageSize = Yii::$app->request->get('pageSize', 10);
+            $provider = Pagination::getPagination($user,$pageSize, SORT_ASC);
+            return $this->json(true, ['data' => $provider], 'success', HTTPS_CODE::SUCCESS_CODE);
         }
-        $provider = Pagination::getPagination($user,10, SORT_ASC);
-        return $this->json(true, ['data' => $provider], 'success', HTTPS_CODE::SUCCESS_CODE);
+        return $this->json(false, [], 'fails', HTTPS_CODE::BADREQUEST_CODE);
     }
 
-    /**
-     * @throws Exception
-     * @throws \yii\base\Exception
-     */
     public function actionLogin(): array
     {
-        $username = Yii::$app->getRequest()->post('username');
-        $password = Yii::$app->getRequest()->post('password');
-        if (!$username || !$password) {
-            return $this->json(false, [], 'Missing required parameters: username, password', HTTPS_CODE::BADREQUEST_CODE);
-        }
-        $user = UserForm::login($username, $password);
-        if(!$user)
+       $model = new SignUp();
+        if ($model->load(Yii::$app->request->post(), '') && $model->login())
         {
-            return $this->json(false, [], 'Login fails', HTTPS_CODE::BADREQUEST_CODE);
+            return $this->json(true, [], 'Login success', HTTPS_CODE::SUCCESS_CODE);
         }
-        return $this->json(true, ['data' => $user], 'Login success', HTTPS_CODE::SUCCESS_CODE);
+        return $this->json(false, [], 'Login false', HTTPS_CODE::BADREQUEST_CODE);
     }
 
     /**
@@ -50,11 +43,11 @@ class UserController extends Controller
     public function actionRegister(): array
     {
         $user = new UserForm();
-        $userData = $user->load(Yii::$app->request->post(),'');
-        if (!$user->register($userData)) {
-            return $this->json(false, ['data' => $user], 'User registered fail', HTTPS_CODE::BADREQUEST_CODE);
+        $userData = $user->load(Yii::$app->request->post());
+        if ($user->register($userData)) {
+            return $this->json(true, ['data' => $user], 'User registered success', HTTPS_CODE::BADREQUEST_CODE);
         }
-        return $this->json(true, ['data' => $user], 'User registered success', HTTPS_CODE::SUCCESS_CODE);
+        return $this->json(false, [], 'User registered fails', HTTPS_CODE::SUCCESS_CODE);
     }
 
     /**
@@ -62,10 +55,10 @@ class UserController extends Controller
      */
     public function actionLogout($id): array
     {
-        if (!UserForm::logout($id)) {
-            return $this->json(false, [], 'User not found', HTTPS_CODE::NOUTFOUND_CODE);
+        if (UserForm::logout($id)) {
+            return $this->json(true, [], 'success', HTTPS_CODE::SUCCESS_CODE);
         }
-        return $this->json(true, [], 'success', HTTPS_CODE::SUCCESS_CODE);
+        return $this->json(false, [], 'logout fails', HTTPS_CODE::BADREQUEST_CODE);
     }
     public function actionUpdate($id): array
     {
@@ -89,11 +82,12 @@ class UserController extends Controller
     public function actionDelete($id): array
     {
         $user = User::find()->select('id')->where(['id' => $id])->one();
-        if(empty($user))
+        if($user)
         {
-            return $this->json(false, [], 'User not found', HTTPS_CODE::NOUTFOUND_CODE);
+            $user->delete();
+            return $this->json(true, ['data' => $user], 'success', HTTPS_CODE::SUCCESS_CODE);
         }
-        $user->delete();
-        return $this->json(true, ['data' => $user], 'success', HTTPS_CODE::SUCCESS_CODE);
+        return $this->json(false, [], 'Can not delete', HTTPS_CODE::BADREQUEST_CODE);
+
     }
 }

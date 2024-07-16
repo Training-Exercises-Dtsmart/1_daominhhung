@@ -33,21 +33,21 @@ class ProductController extends Controller
     public function actionSearch()
     {
         $modelSearch = new ProductSearch();
-        $dataProduct = $modelSearch->search(Yii::$app->request->getQueryParams());
-
-        if(!$dataProduct)
-        {
-            return $this->json(false, [], "Can't search product", HTTPS_CODE::NOUTFOUND_CODE);
+        $dataProvider = $modelSearch->search(Yii::$app->request->getQueryParams());
+        $dataModel = $dataProvider->getModels();
+        if (empty($dataModel)) {
+            return $this->json(false, [], "Search not found", HTTPS_CODE::BADREQUEST_CODE);
         }
-        return $this->json(true, $dataProduct, "success", HTTPS_CODE::SUCCESS_CODE);
+
+        return $this->json(true, $dataProvider->getModels(), "success", HTTPS_CODE::SUCCESS_CODE);
     }
 
     public function actionSearchcategories()
     {
         $modelSearch = new ProductSearch();
         $dataProvider = $modelSearch->search(Yii::$app->request->getQueryParams());
-
-        if($dataProvider->getCount() == 0)
+        $dataModel = $dataProvider->getModels();
+        if(empty($dataModel))
         {
             return $this->json(false, [], "Search not found", HTTPS_CODE::BADREQUEST_CODE);
         }
@@ -61,6 +61,7 @@ class ProductController extends Controller
     {
         $product = new ProductForm();
         $data = $product->load(Yii::$app->request->post());
+
         if(!$product->validate() || !$product->save())
         {
             return $this->json(false, $product->getErrors(), HTTPS_CODE::BADREQUEST_CODE);

@@ -11,6 +11,6 @@ class Product extends BaseProduct
 {
     public function formName(): string
     {
-        return "";
+        return '';
     }
 }

@@ -13,4 +13,5 @@ class User extends BaseUser
     {
         return '';
     }
+
 }

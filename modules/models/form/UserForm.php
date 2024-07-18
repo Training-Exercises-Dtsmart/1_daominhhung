@@ -4,18 +4,18 @@ namespace app\modules\models\form;
 use Yii;
 use app\modules\models\User;
 use yii\base\Exception;
-use yii\helpers\Json;
 use yii\web\UploadedFile;
 
 class UserForm extends User
 {
+
     public function rules(): array
     {
         return array_merge(parent::rules(), [
             [['username', 'password'], 'required'],
             ['username', 'email'],
             ['password', 'string', 'min' => 6],
-            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 10],
         ]);
     }
 
@@ -23,12 +23,10 @@ class UserForm extends User
     {
         return static::findOne(['username' => $username]);
     }
-
     public function validatePassword($password): bool
     {
         return Yii::$app->getSecurity()->validatePassword($password, $this->password);
     }
-
     /**
      * @throws Exception
      */
@@ -36,26 +34,6 @@ class UserForm extends User
     {
         return Yii::$app->security->generateRandomString();
     }
-
-
-    /**
-     * @throws Exception
-     * @throws \yii\db\Exception
-     */
-    public static function login($username, $password)
-    {
-        $user = self::findOne(['username' => $username]);
-        if (!$user || !$user->validatePassword($password)) {
-            return false;
-        }
-        $user->image =
-        $user->access_token = self::getAccessToken();
-        if ($user->save()) {
-            return $user;
-        }
-        return false;
-    }
-
     /**
      * @throws Exception
      * @throws \yii\db\Exception
@@ -63,21 +41,16 @@ class UserForm extends User
     public function register($userData): bool
     {
         $this->load($userData, '');
-        if (!$this->validate()) {
-            return false;
-        }
-
         $uploadedImage = $this->uploadFile($userData);
         if ($uploadedImage) {
             $this->image = $uploadedImage;
         }
+        if (!$this->validate() || !$this->save()) {
+            return false;
+        }
 
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
         $this->access_token = self::getAccessToken();
-
-        if (!$this->save()) {
-            return false;
-        }
         return true;
     }
     /**
@@ -93,21 +66,26 @@ class UserForm extends User
         return false;
     }
 
-    public function uploadFile($userData)
+    public function uploadFile($data)
     {
-        if ($avatarFile = UploadedFile::getInstanceByName('img')) {
+        $avatarFile = UploadedFile::getInstanceByName('image');
+        if ($avatarFile !== null) {
+            $oldImage = $this->image;
+
             $uploadPath = Yii::getAlias('@app/modules/models/upload/user/');
             $filename = uniqid() . '.' . $avatarFile->extension;
             $filePath = $uploadPath . $filename;
 
             if ($avatarFile->saveAs($filePath)) {
                 $this->image = $filename;
+                if ($oldImage && file_exists($uploadPath . $oldImage)) {
+                    unlink($uploadPath . $oldImage);
+                }
                 return $filename;
             } else {
                 return false;
             }
         }
-
         return false;
     }
 }

@@ -8,7 +8,7 @@ use app\modules\models\pagination\Pagination;
 use app\modules\models\form\ProductForm;
 use app\modules\models\search\ProductSearch;
 use app\modules\models\Product;
-use app\modules\HTTPS_CODE;
+use app\modules\https_code;
 use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBearerAuth;
@@ -16,43 +16,43 @@ use yii\filters\auth\HttpBearerAuth;
 class ProductController extends Controller
 {
 
-
     public function actionIndex()
     {
-        $products = Product::find();
+        $product = Product::find();
 
-        if(!$products->exists())
+        if($product)
         {
-            return $this->json(false, [], 'Product not exist', HTTPS_CODE::BADREQUEST_CODE);
+            $pageSize = Yii::$app->request->get('pageSize', 10);
+            $search = Yii::$app->request->get('search');
+            $provider = Pagination::getPagination($product, $pageSize, SORT_ASC, $search);
+            return $this->json(true, ['data' => $provider], 'success', https_code::success_code);
         }
-
-        $provider = Pagination::getPagination($products,20, SORT_ASC);
-        return $this->json(true, $provider, 'success', HTTPS_CODE::SUCCESS_CODE);
+        return $this->json(false, [], 'success', https_code::bad_request_code);
     }
 
-    public function actionSearch()
-    {
-        $modelSearch = new ProductSearch();
-        $dataProvider = $modelSearch->search(Yii::$app->request->getQueryParams());
-        $dataModel = $dataProvider->getModels();
-        if (empty($dataModel)) {
-            return $this->json(false, [], "Search not found", HTTPS_CODE::BADREQUEST_CODE);
-        }
-
-        return $this->json(true, $dataProvider->getModels(), "success", HTTPS_CODE::SUCCESS_CODE);
-    }
-
-    public function actionSearchcategories()
-    {
-        $modelSearch = new ProductSearch();
-        $dataProvider = $modelSearch->search(Yii::$app->request->getQueryParams());
-        $dataModel = $dataProvider->getModels();
-        if(empty($dataModel))
-        {
-            return $this->json(false, [], "Search not found", HTTPS_CODE::BADREQUEST_CODE);
-        }
-        return $this->json(true, $dataProvider, "success", HTTPS_CODE::SUCCESS_CODE);
-    }
+//    public function actionSearch()
+//    {
+//        $modelSearch = new ProductSearch();
+//        $dataProvider = $modelSearch->search(Yii::$app->request->getQueryParams());
+//        $dataModel = $dataProvider->getModels();
+//        if (empty($dataModel)) {
+//            return $this->json(false, [], "Search not found", https_code::bad_request_code);
+//        }
+//
+//        return $this->json(true, $dataProvider->getModels(), "success", https_code::success_code);
+//    }
+//
+//    public function actionSearchcategories()
+//    {
+//        $modelSearch = new ProductSearch();
+//        $dataProvider = $modelSearch->search(Yii::$app->request->getQueryParams());
+//        $dataModel = $dataProvider->getModels();
+//        if(empty($dataModel))
+//        {
+//            return $this->json(false, [], "Search not found", https_code::bad_request_code);
+//        }
+//        return $this->json(true, $dataProvider, "success", https_code::success_code);
+//    }
 
     /**
      * @throws Exception
@@ -61,39 +61,48 @@ class ProductController extends Controller
     {
         $product = new ProductForm();
         $data = $product->load(Yii::$app->request->post());
-
-        if(!$product->validate() || !$product->save())
-        {
-            return $this->json(false, $product->getErrors(), HTTPS_CODE::BADREQUEST_CODE);
-        }
+        $product->user_id = Yii::$app->user->identity->id;
         $product->uploadFiles($data);
-        return $this->json(true, ['product' => $product], "success", HTTPS_CODE::SUCCESS_CODE);
+        if($product->validate() && $product->save())
+        {
+            return $this->json(true, ['data' => $product], https_code::success_code);
+        }
+        return $this->json(false, $product->getErrors(), "Create product fail", https_code::bad_request_code);
     }
-    
+
+    /**
+     * @throws Exception
+     */
     public function actionUpdate($id)
     {
         $product = ProductForm::findOne($id);
-        if(empty($product))
+
+        if($product == null)
         {
-            return $this->json(false, [], "Product not found", HTTPS_CODE::NOUTFOUND_CODE);
+            return $this->json(false, [], "Product not found", https_code::notfound_code);
         }
-        $product->load(Yii::$app->request->post(), '');
-        if(!$product->validate() || !$product->save())
+
+        $data = $product->load(Yii::$app->request->post());
+        $product->user_id = Yii::$app->user->identity->id;
+        $product->uploadFiles($data);
+        if($product->validate() && $product->save())
         {
-            return $this->json(false, $product->getErrors(),"Can't Update Product", HTTPS_CODE::BADREQUEST_CODE);
+            return $this->json(true, ['data' => $product],"Update Product success", https_code::success_code);
         }
-        return $this->json(true, $product, "success", HTTPS_CODE::SUCCESS_CODE);
+        return $this->json(false, $product->getErrors(),"Update Product fails", https_code::bad_request_code);
     }
 
+    /**
+     * @throws Exception
+     */
     public function actionDelete($id)
     {
         $product = Product::find()->select(['id'])->where(['id' => $id])->one();
-        if (empty($product)) {
-            return $this->json(false, [], "Product not found", HTTPS_CODE::NOUTFOUND_CODE);
+        if ($product) {
+            $product->status = https_code::status_delete;
+            $product->save();
+            return $this->json(true, $product, "success", https_code::success_code);
         }
-        if (!$product->delete()) {
-            return $this->json(false, [], "Can't delete product", HTTPS_CODE::BADREQUEST_CODE);
-        }
-        return $this->json(true, $product, "success", HTTPS_CODE::SUCCESS_CODE);
+        return $this->json(false, [], "Product not found", https_code::notfound_code);
     }
 }

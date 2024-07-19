@@ -157,3 +157,36 @@ composer install
 clear
 clear
 exit
+ls -la
+rm -rf 1_daominhhung
+clear
+ls -la
+git clone https://github.com/Training-Exercises-Dtsmart/1_daominhhung.git
+clear
+ls -la
+clear
+ls -la
+clear
+docker restart
+docker restart container
+docker container restart
+docker restart basic
+clear
+exit
+ls -la
+cd 1_daominhhung
+clear
+composer install
+clear
+exit 
+mysql -h yii_mariadb -u root -p
+clear
+mariadb -h yii_mariadb -u root -p
+apt-get install -y mysql-client
+clear
+docker exec -it -u root yii_php /bin/bash
+docker exec -it -u root yii_php bash
+exit
+clear
+apt-get install -y mysql-client
+exit

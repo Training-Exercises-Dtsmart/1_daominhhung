@@ -3,6 +3,7 @@
 namespace app\modules\controllers;
 
 use app\models\LoginForm;
+use app\modules\models\form\PasswordResetRequestForm;
 use app\modules\models\form\SignUp;
 use Yii;
 use app\modules\models\form\UserForm;
@@ -33,6 +34,12 @@ class UserController extends Controller
        $model = new LoginForm();
         if ($model->load(Yii::$app->request->post(), '') && $model->login())
         {
+            $user = $model->getUser();
+            if($user->access_token == null)
+            {
+                $user->access_token = UserForm::getAccessToken();
+                $user->save();
+            }
             return $this->json(true, [], 'Login success', https_code::success_code);
         }
         return $this->json(false, [], 'Login false', https_code::bad_request_code);
@@ -99,13 +106,27 @@ class UserController extends Controller
 
     }
 
-    public function actionResetPassword($id)
+    public function actionPasswordReset(): array
     {
-        $user = User::find()->select('id')->where(['id' => $id])->one();
-        if($user == null)
-        {
-            return $this->json(false, [], 'User not found', https_code::notfound_code);
+        $data = Yii::$app->request->post();
+        $email = $data['email'] ?? null;
+
+        if (empty($email)) {
+            return $this->json(false, [], 'Email is required', https_code::bad_request_code);
         }
 
+        $model = new PasswordResetRequestForm();
+        $model->email = $email;
+
+        if ($model->validate()) {
+            if ($model->sendEmail()) {
+                return $this->json(true, [], 'Check your email for further instructions.', https_code::success_code);
+            } else {
+                return $this->json(false, [], 'Sorry, we are unable to reset password for the provided email address.', https_code::server_error_code);
+            }
+        }
+
+        // Return validation errors if any
+        return $this->json(false, $model->errors, 'Validation failed', https_code::bad_request_code);
     }
 }

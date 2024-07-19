@@ -22,12 +22,12 @@ class Controller extends BaseController
             'rules' => [
                 [
                     'allow' => true,
-                    'actions' => ['login', 'register'],
+                    'actions' => ['login', 'register', 'password-reset'],
                     'roles' => ['?'],
                 ],
                 [
                     'allow' => true,
-                    'actions' => ['index', 'logout'],
+                    'actions' => ['index', 'logout', 'password-reset'],
                     'roles' => ['@'],
                 ],
                 [

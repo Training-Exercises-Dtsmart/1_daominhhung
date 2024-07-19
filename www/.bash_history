@@ -73,3 +73,38 @@ pwd
 composer install
 clear
 exit
+clclear
+clear
+git clone https://github.com/Training-Exercises-Dtsmart/1_daominhhung.git
+clear
+git clone https://github.com/Training-Exercises-Dtsmart/1_daominhhung.git
+docker ps -a
+exit 
+ls -la
+cd 1_daominhhung
+exit 
+ls -la
+remove -rf 1_daominhhung 
+rm -rf 1_daominhhung
+ls -la
+clear
+git clone https://github.com/Training-Exercises-Dtsmart/1_daominhhung.git
+clear
+ls -la
+clear
+exit 
+composer install
+composer install
+ls -la
+cd 1_daominhhung
+composer install
+clear
+ls -la
+clear
+cd /
+ls -la
+cd ../
+exit
+ls -la
+clear
+exit

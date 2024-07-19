@@ -14,45 +14,130 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+-- Dumping database structure for test
+CREATE DATABASE IF NOT EXISTS `test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `test`;
+
+-- Dumping structure for table test.auth_assignment
+CREATE TABLE IF NOT EXISTS `auth_assignment` (
+  `item_name` varchar(64) NOT NULL,
+  `user_id` varchar(64) NOT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`item_name`,`user_id`),
+  KEY `idx-auth_assignment-user_id` (`user_id`),
+  CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
 -- Dumping data for table test.auth_assignment: ~3 rows (approximately)
-DELETE FROM `auth_assignment`;
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 	('admin', '2', 1721011657),
 	('admin', '31', 1721011657),
 	('author', '34', 1721011657);
 
+-- Dumping structure for table test.auth_item
+CREATE TABLE IF NOT EXISTS `auth_item` (
+  `name` varchar(64) NOT NULL,
+  `type` smallint(6) NOT NULL,
+  `description` text DEFAULT NULL,
+  `rule_name` varchar(64) DEFAULT NULL,
+  `data` blob DEFAULT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`name`),
+  KEY `rule_name` (`rule_name`),
+  KEY `idx-auth_item-type` (`type`),
+  CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
 -- Dumping data for table test.auth_item: ~4 rows (approximately)
-DELETE FROM `auth_item`;
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 	('admin', 1, NULL, NULL, NULL, 1721011657, 1721011657),
 	('author', 1, NULL, NULL, NULL, 1721011656, 1721011656),
 	('create', 2, 'Create', NULL, NULL, 1721011656, 1721011656),
 	('update', 2, 'Update', NULL, NULL, 1721011656, 1721011656);
 
+-- Dumping structure for table test.auth_item_child
+CREATE TABLE IF NOT EXISTS `auth_item_child` (
+  `parent` varchar(64) NOT NULL,
+  `child` varchar(64) NOT NULL,
+  PRIMARY KEY (`parent`,`child`),
+  KEY `child` (`child`),
+  CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
 -- Dumping data for table test.auth_item_child: ~3 rows (approximately)
-DELETE FROM `auth_item_child`;
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 	('admin', 'author'),
 	('author', 'create'),
 	('admin', 'update');
 
+-- Dumping structure for table test.auth_rule
+CREATE TABLE IF NOT EXISTS `auth_rule` (
+  `name` varchar(64) NOT NULL,
+  `data` blob DEFAULT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
 -- Dumping data for table test.auth_rule: ~0 rows (approximately)
-DELETE FROM `auth_rule`;
+
+-- Dumping structure for table test.category_post
+CREATE TABLE IF NOT EXISTS `category_post` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx-category_post-user_id` (`user_id`),
+  CONSTRAINT `fk-category_post-user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table test.category_post: ~0 rows (approximately)
-DELETE FROM `category_post`;
+
+-- Dumping structure for table test.category_product
+CREATE TABLE IF NOT EXISTS `category_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx-category_product-user_id` (`user_id`),
+  CONSTRAINT `fk-category_product-user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table test.category_product: ~2 rows (approximately)
-DELETE FROM `category_product`;
 INSERT INTO `category_product` (`id`, `user_id`, `name`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 8, 'Điện thoại', '2024-07-12 14:53:55', NULL, NULL),
 	(2, 8, 'Laptop', '2024-07-17 10:38:08', NULL, NULL);
 
+-- Dumping structure for table test.complete_job
+CREATE TABLE IF NOT EXISTS `complete_job` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_id` bigint(20) NOT NULL,
+  `job_data` blob NOT NULL,
+  `completed_at` int(11) NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'completed',
+  PRIMARY KEY (`id`),
+  KEY `idx-complete_job-job_id` (`job_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- Dumping data for table test.complete_job: ~0 rows (approximately)
-DELETE FROM `complete_job`;
+
+-- Dumping structure for table test.migration
+CREATE TABLE IF NOT EXISTS `migration` (
+  `version` varchar(180) NOT NULL,
+  `apply_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table test.migration: ~15 rows (approximately)
-DELETE FROM `migration`;
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
 	('m140506_102106_rbac_init', 1720750916),
 	('m170907_052038_rbac_add_index_on_auth_assignment_user_id', 1720750916),
@@ -70,41 +155,156 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 	('m240711_043120_create_queue_table', 1720672570),
 	('m240715_080322_create_complete_job_table', 1721030676);
 
+-- Dumping structure for table test.order
+CREATE TABLE IF NOT EXISTS `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code_order` varchar(255) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `order_address` varchar(255) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx-order-user_id` (`user_id`),
+  CONSTRAINT `fk-order-user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- Dumping data for table test.order: ~0 rows (approximately)
-DELETE FROM `order`;
+
+-- Dumping structure for table test.order_detail
+CREATE TABLE IF NOT EXISTS `order_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `totalPrice` float DEFAULT NULL,
+  `totalQuantity` float DEFAULT NULL,
+  `payment` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx-order_detail-product_id` (`product_id`),
+  KEY `idx-order_detail-order_id` (`order_id`),
+  CONSTRAINT `fk-order_detail-order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk-order_detail-product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table test.order_detail: ~0 rows (approximately)
-DELETE FROM `order_detail`;
+
+-- Dumping structure for table test.post
+CREATE TABLE IF NOT EXISTS `post` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `category_post_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx-post-user_id` (`user_id`),
+  KEY `idx-post-category_post_id` (`category_post_id`),
+  CONSTRAINT `fk-post-category_post_id` FOREIGN KEY (`category_post_id`) REFERENCES `category_post` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk-post-user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table test.post: ~0 rows (approximately)
-DELETE FROM `post`;
 
--- Dumping data for table test.product: ~14 rows (approximately)
-DELETE FROM `product`;
+-- Dumping structure for table test.product
+CREATE TABLE IF NOT EXISTS `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `image` text DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `stock` int(11) unsigned DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx-product-user_id` (`user_id`),
+  KEY `idx-product-category_id` (`category_id`),
+  CONSTRAINT `fk-product-category_id` FOREIGN KEY (`category_id`) REFERENCES `category_product` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk-product-user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table test.product: ~12 rows (approximately)
 INSERT INTO `product` (`id`, `user_id`, `name`, `image`, `price`, `stock`, `description`, `category_id`, `created_at`, `updated_at`, `deleted_at`, `status`) VALUES
 	(17, 8, 'Iphone15', '6690f2e832a2f.png', 15000000, 100, 'Điện thoại, Điện thoại,Điện thoại,Điện thoai', 1, '2024-07-12 11:10:00', '2024-07-15 05:33:29', NULL, 0),
 	(43, 8, 'Iphone 16ProMax', NULL, 12000000, 90, 'Iphone 15', 1, '2024-07-15 08:57:52', '2024-07-15 08:57:52', NULL, 0),
-	(44, 31, NULL, '66973d9597e56.jpg', NULL, NULL, NULL, NULL, '2024-07-17 05:42:13', '2024-07-17 05:42:13', NULL, 0),
-	(45, 31, NULL, '66973dab38ffd.jpg', NULL, NULL, NULL, NULL, '2024-07-17 05:42:35', '2024-07-17 05:42:35', NULL, 0),
 	(46, 31, 'Laptop Asus Gaming', NULL, 24000000, 90, 'Laptop Asus Gaming', 2, '2024-07-17 05:46:35', '2024-07-17 05:46:35', NULL, 0),
-	(47, NULL, NULL, '66973e9bf34c7.jpg', NULL, NULL, NULL, NULL, '2024-07-17 05:46:35', '2024-07-17 05:46:35', NULL, 0),
 	(48, 31, 'Laptop Asus Gaming', NULL, 24000000, 90, 'Laptop Asus Gaming', 2, '2024-07-17 05:47:02', '2024-07-17 05:47:02', NULL, 0),
-	(49, NULL, NULL, '66973eb61d648.jpg', NULL, NULL, NULL, NULL, '2024-07-17 05:47:02', '2024-07-17 05:47:02', NULL, 0),
 	(50, 31, 'Laptop Asus Gaming', NULL, 24000000, 90, 'Laptop Asus Gaming', 2, '2024-07-17 05:48:20', '2024-07-17 05:48:20', NULL, 0),
 	(51, 31, 'Laptop Asus Gaming', NULL, 24000000, 90, 'Laptop Asus Gaming', 2, '2024-07-17 05:54:49', '2024-07-17 05:54:49', NULL, 0),
 	(52, 31, 'Laptop Asus Gaming', NULL, 24000000, 90, 'Laptop Asus Gaming', 2, '2024-07-17 05:55:11', '2024-07-17 05:55:11', NULL, 0),
 	(53, 22, 'Laptop Asus Gaming', '6697437e58bb5.jpg', 24000000, 90, 'Laptop Asus Gaming', 2, '2024-07-17 05:56:32', '2024-07-17 06:07:26', NULL, 0),
 	(54, 31, 'Laptop Asus Gaming 1', '66976d9e7d6b7.jpg,66976d9e7e11a.png', 24000000, 90, 'Laptop Asus Gaming 1', 2, '2024-07-17 09:02:11', '2024-07-17 09:07:10', NULL, 0),
-	(55, 31, 'Laptop Asus Gaming 2', '66976ceb28b55.jpg,66976ceb29363.jpg', 24000000, 90, 'Laptop Asus Gaming 2', 2, '2024-07-17 09:04:11', '2024-07-17 09:04:11', NULL, 0);
+	(55, 31, 'Laptop Asus Gaming 2', '66976ceb28b55.jpg,66976ceb29363.jpg', 24000000, 90, 'Laptop Asus Gaming 2', 2, '2024-07-17 09:04:11', '2024-07-17 09:04:11', NULL, 0),
+	(56, 31, 'Laptop Asus Gaming 2', '', 24000000, 90, 'Laptop Asus Gaming 2', 2, '2024-07-18 09:48:48', '2024-07-18 09:48:48', NULL, 0),
+	(57, 31, 'Laptop Asus Gaming 10', '6698c93f33cf6.jpg,6698c93f34495.jpg', 24000000, 90, 'Laptop Asus Gaming 2', 2, '2024-07-18 09:50:23', '2024-07-18 09:50:23', NULL, 0);
+
+-- Dumping structure for table test.queue
+CREATE TABLE IF NOT EXISTS `queue` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel` varchar(255) DEFAULT NULL,
+  `job` varchar(255) DEFAULT NULL,
+  `pushed_at` int(11) unsigned DEFAULT NULL,
+  `ttr` int(11) unsigned DEFAULT NULL,
+  `delay` int(11) unsigned DEFAULT NULL,
+  `priority` int(11) unsigned DEFAULT NULL,
+  `reserved_at` int(11) unsigned DEFAULT NULL,
+  `attempt` int(11) unsigned DEFAULT NULL,
+  `done_at` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table test.queue: ~0 rows (approximately)
-DELETE FROM `queue`;
+
+-- Dumping structure for table test.review
+CREATE TABLE IF NOT EXISTS `review` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `rate` int(11) DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx-review-product_id` (`product_id`),
+  KEY `idx-review-user_id` (`user_id`),
+  CONSTRAINT `fk-review-product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk-review-user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table test.review: ~0 rows (approximately)
-DELETE FROM `review`;
+
+-- Dumping structure for table test.user
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone` int(11) unsigned DEFAULT NULL,
+  `access_token` varchar(255) DEFAULT NULL,
+  `password_reset_token` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table test.user: ~15 rows (approximately)
-DELETE FROM `user`;
 INSERT INTO `user` (`id`, `image`, `username`, `password`, `address`, `phone`, `access_token`, `password_reset_token`, `created_at`, `updated_at`, `deleted_at`, `status`) VALUES
 	(8, 'https://i.pinimg.com/originals/43/8a/5b/438a5b048e1d07c5b64f4147203b58bc.jpg', 'toan70868@gmail.com', '$2y$13$.dYWCIIRCP2sItiTEPr8Rew/clbXEw2PFBJG4uPyOZNyatqiJzilO', NULL, NULL, NULL, NULL, '2024-07-12 09:02:42', '2024-07-16 12:26:17', NULL, 0),
 	(22, NULL, 'husyanti@gmail.com', '$2y$13$t41pc40vlUgJfPS5WcoZv./yZWyxFzctidry3IVy0JIs.deEclNIO', NULL, 123456789, '3yMSB2AurrRufdf_5L-jjonLN8zVYuyI', NULL, '2024-07-12 12:04:53', '2024-07-17 06:57:30', NULL, 0),
@@ -116,7 +316,7 @@ INSERT INTO `user` (`id`, `image`, `username`, `password`, `address`, `phone`, `
 	(28, '66910129633d6.jfif', 'toan70868@gmail.com', '$2y$13$eTGENyK47WL3WDop2FzzzuiGWVMC.KsyWZSGBXWIBoT187CJv.Tau', NULL, NULL, 'MoL1XkRaXIw7SFKLCllbV7MKZKe8z8t-', NULL, '2024-07-12 12:10:49', '2024-07-12 12:10:49', NULL, 0),
 	(29, '66910204e1efa.jfif', 'toan70868@gmail.com', '$2y$13$eh8VEOktw2JnHNc.QIRgbe6Vqjax68adb1UG.iwG.vQy0NttBIgpe', NULL, NULL, 'haIbxGM8OkmjuZsr6eggwmzPUHpCMF4f', NULL, '2024-07-12 12:14:28', '2024-07-12 12:14:28', NULL, 0),
 	(30, '66910224aa6fb.jpg', 'toan70868@gmail.com', '$2y$13$5fNv.dKIxO/JUHBoumwml.4nwt6g.T9tr/AdnswRsR8uQMqmx.64q', NULL, NULL, 'BB3huGmHVRgG_97U3A6_OcrMQGmr73Ai', NULL, '2024-07-12 12:15:00', '2024-07-12 12:15:00', NULL, 0),
-	(31, 'i_fsqp40_qZr0KGuT5YXAZHMy_LOfRZc', 'daominhhung2203@gmail.com', '$2y$13$T77ugjXpC9uGn3WiJ5/Y2.thazTCtwu.mPhue2uGx.Jpyzjo96ypW', NULL, NULL, 'i_fsqp40_qZr0KGuT5YXAZHMy_LOfRZc', NULL, '2024-07-15 05:37:03', '2024-07-16 05:22:12', NULL, 0),
+	(31, 'i_fsqp40_qZr0KGuT5YXAZHMy_LOfRZc', 'daominhhung2203@gmail.com', '$2y$13$T77ugjXpC9uGn3WiJ5/Y2.thazTCtwu.mPhue2uGx.Jpyzjo96ypW', NULL, NULL, NULL, NULL, '2024-07-15 05:37:03', '2024-07-19 04:23:47', NULL, 0),
 	(32, NULL, 'daominhhung1@gmail.com', '$2y$13$r/4iY37U5SKW6hwLPWnNXembkJeJfZyXg8NxNq1PHLm4DjQc1WxVe', NULL, 123456789, 'AnM-LPW52NJhh5pPQAB09nGTuqfb50SW', NULL, '2024-07-16 05:11:51', '2024-07-17 06:36:43', NULL, 0),
 	(33, NULL, '@gmail.com', '$2y$13$Wc4781pxZHDOZLX/wa4nmOy9NHN5T.YeJ0F9X2i6BO/QOoGOG6FD6', NULL, NULL, 'lKN3YzcukLIthxIJWhiyDQJslZeXQ1S7', NULL, '2024-07-16 12:22:36', '2024-07-17 05:27:41', NULL, 1),
 	(34, '66964bada89db.jpg', 'daominhhung2@gmail.com', '$2y$13$3rwFjC1JDQU0UXvIVc8jceGzYwy0CtgqE.3xqh.wlCY7GezrQJjRW', NULL, NULL, 'rvBDdVgSr-xSO5cq84oQi3hmVVZCA6ZG', NULL, '2024-07-16 12:30:05', '2024-07-16 12:30:05', NULL, 0),

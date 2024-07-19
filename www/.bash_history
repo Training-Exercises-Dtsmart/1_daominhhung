@@ -108,3 +108,32 @@ exit
 ls -la
 clear
 exit
+ls -la
+cd 1_daominhhung
+ls -la
+cd compose.yml
+cd compose.yml
+clear
+ls -la
+ls compose.yml
+ls -la
+clear
+exit
+clear
+exit 
+ls -la
+clear
+exit 
+mysql -h yii_mariadb -P 3306 -u root -p
+clear
+docker exec -it --user root yii_php bash
+clear
+docker exec -it yii_php bash
+exit
+clear
+apt-get update
+apt-get install mysql-client
+exit
+RUN apt-get install -y mysql-client
+apt-get install -y mysql-client
+exit 

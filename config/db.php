@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=yii_mariadb;dbname=test;port=3306',
+    'dsn' => 'mysql:host=172.18.0.3;dbname=test',
     'username' => 'root',
-    'password' => '',
+    'password' => 'secret',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

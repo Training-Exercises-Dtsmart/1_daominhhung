@@ -137,3 +137,23 @@ exit
 RUN apt-get install -y mysql-client
 apt-get install -y mysql-client
 exit 
+clear
+ls -la
+rm -rf 1_daominhhung
+clear
+git clone https://github.com/Training-Exercises-Dtsmart/1_daominhhung.git
+clear
+ls -la 
+exit 
+compose install 
+clear
+compose install
+exit 
+cd 1_daominhhung
+compose install
+clear
+compose install
+composer install
+clear
+clear
+exit

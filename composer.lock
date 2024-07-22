@@ -4,8 +4,54 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6f1ae6887a0d08b425df50cf6accee8",
+    "content-hash": "8018e4efa02f7a61d976e34d2a6ec638",
     "packages": [
+        {
+            "name": "abhi1693/yii2-sms",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/abhi1693/yii2-sms.git",
+                "reference": "0dd4ca025c749195704d5c3fd796bba5e373fd8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/abhi1693/yii2-sms/zipball/0dd4ca025c749195704d5c3fd796bba5e373fd8d",
+                "reference": "0dd4ca025c749195704d5c3fd796bba5e373fd8d",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-swiftmailer": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "abhimanyu\\sms\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT License"
+            ],
+            "authors": [
+                {
+                    "name": "Abhimanyu Saharan",
+                    "email": "abhimanyu@teamvulcans.com"
+                }
+            ],
+            "description": "Send Free Sms for Yii2",
+            "keywords": [
+                "extension",
+                "sms",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/abhi1693/yii2-sms/issues?state=open",
+                "source": "https://github.com/abhi1693/yii2-sms/"
+            },
+            "time": "2015-02-26T09:10:49+00:00"
+        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v5.3.3",
@@ -7606,7 +7652,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4.0"
+        "php": ">=7.4.0",
+        "ext-curl": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

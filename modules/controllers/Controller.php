@@ -14,7 +14,7 @@ class Controller extends BaseController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::class,
-            'except' => ['login','register','index', 'search'],
+            'except' => ['login','register','index', 'search', 'location', 'sendsms'],
         ];
         $behaviors['access'] = [
             'class' => AccessControl::class,
@@ -22,7 +22,7 @@ class Controller extends BaseController
             'rules' => [
                 [
                     'allow' => true,
-                    'actions' => ['login', 'register', 'password-reset'],
+                    'actions' => ['login', 'register', 'password-reset', 'location'],
                     'roles' => ['?'],
                 ],
                 [
@@ -44,6 +44,7 @@ class Controller extends BaseController
         ];
         return $behaviors;
     }
+
     // Hàm trả về JSON response
     public function json($status = true, $data = [], $message = "", $code = 200): array
     {

@@ -2,6 +2,7 @@
 
 use app\modules\Module;
 
+use yii\filters\Cors;
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -75,13 +76,35 @@ $config = [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ],
         ],
-        
+
        'authManager' => [
         'class' => 'yii\rbac\DbManager',
+        ],
+
+        'locationComponent' => [
+            'class' => 'app\modules\components\LocationComponent',
+        ],
+
+        'sms' => [
+            'class' => 'abhimanyu\sms\components\Sms',
+            'transportType' => 'nexmo',
+            'transportOptions' => [
+                'api_key' => '9901673f21204e10799e366272a73f26-322da15b-bf89-41e4-b011-db600a4a3e45',
+//                'api_secret' => 'your_nexmo_api_secret',
+//                'from' => 'your_nexmo_phone_number',
+            ],
+        ],
     ],
-    ],
+
 //    'modules' => [
-//        'api' => Module::class
+//        'api' => [
+//            'class' => 'yii\base\Module',
+//            'modules' => [
+//                'v1' => [
+//                    'class' => 'app\modules\Module',
+//                ],
+//            ],
+//        ],
 //    ],
     'modules' => [
         'api' => [
@@ -91,7 +114,16 @@ $config = [
                     'class' => 'app\modules\Module',
                 ],
             ],
+            'as corsFilter' => [
+                'class' => Cors::class,
+                'cors' => [
+                    'Origin' => ['*'],
+                    'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+                    'Access-Control-Request-Headers' => ['*'],
+                ],
+            ],
         ],
+
     ],
     'params' => $params,
 ];

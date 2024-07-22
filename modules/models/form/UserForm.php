@@ -41,11 +41,17 @@ class UserForm extends User
     public function register($userData): bool
     {
         $this->load($userData, '');
+
+
         $uploadedImage = $this->uploadFile($userData);
         if ($uploadedImage) {
             $this->image = $uploadedImage;
         }
         if (!$this->validate() || !$this->save()) {
+            return false;
+        }
+
+        if (strlen($this->password) < 8) {
             return false;
         }
 

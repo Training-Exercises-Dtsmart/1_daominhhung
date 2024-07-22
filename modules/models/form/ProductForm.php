@@ -23,9 +23,6 @@ class ProductForm extends Product
     public function uploadFiles($data)
     {
         $avatarFiles = UploadedFile::getInstancesByName('image');
-        if ($avatarFiles === null) {
-            return false;
-        }
 
         $uploadPath = Yii::getAlias('@app/modules/models/upload/product/');
         if (!is_dir($uploadPath)) {
@@ -35,27 +32,30 @@ class ProductForm extends Product
         $oldImages = explode(',', $this->image);
         $uploadedFiles = [];
 
-        foreach ($avatarFiles as $file) {
-            $filename = uniqid() . '.' . $file->extension;
-            $filePath = $uploadPath . $filename;
-            if ($file->saveAs($filePath)) {
-                $uploadedFiles[] = $filename;
-            } else {
-                return false;
+        if (!empty($avatarFiles)) {
+            foreach ($avatarFiles as $file) {
+                $filename = uniqid() . '.' . $file->extension;
+                $filePath = $uploadPath . $filename;
+                if ($file->saveAs($filePath)) {
+                    $uploadedFiles[] = $filename;
+                } else {
+                    return false;
+                }
             }
+            $this->image = implode(',', $uploadedFiles);
         }
 
-        $this->image = implode(',', $uploadedFiles);
         if ($this->save()) {
-            foreach ($oldImages as $oldImage) {
-                $oldFilePath = $uploadPath . $oldImage;
-                if (is_file($oldFilePath) && file_exists($oldFilePath)) {
-                    unlink($oldFilePath);
+            if (!empty($uploadedFiles)) {
+                foreach ($oldImages as $oldImage) {
+                    $oldFilePath = $uploadPath . $oldImage;
+                    if (is_file($oldFilePath) && file_exists($oldFilePath)) {
+                        unlink($oldFilePath);
+                    }
                 }
             }
             return true;
         }
-
         return false;
     }
 }

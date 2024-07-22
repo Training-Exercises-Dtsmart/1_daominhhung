@@ -2,17 +2,17 @@
 
 namespace app\modules\controllers;
 
+use Yii;
+use abhimanyu\sms\components\Sms;
 use app\models\LoginForm;
 use app\modules\models\form\PasswordResetRequestForm;
 use app\modules\models\form\SignUp;
-use Yii;
 use app\modules\models\form\UserForm;
 use app\modules\models\User;
 use app\modules\https_code;
 use app\modules\models\pagination\Pagination;
 use yii\db\Exception;
-use yii\db\StaleObjectException;
-use yii\filters\auth\HttpBearerAuth;
+
 
 class UserController extends Controller
 {
@@ -56,7 +56,7 @@ class UserController extends Controller
         if ($user->register($userData)) {
             return $this->json(true, ['data' => $user], 'User registered success', https_code::bad_request_code);
         }
-        return $this->json(false, [], 'User registered fails', https_code::success_code);
+        return $this->json(false, ['errors' => $user->getErrors()], 'User registered fails', https_code::success_code);
     }
 
     /**
@@ -122,11 +122,32 @@ class UserController extends Controller
             if ($model->sendEmail()) {
                 return $this->json(true, [], 'Check your email for further instructions.', https_code::success_code);
             } else {
-                return $this->json(false, [], 'Sorry, we are unable to reset password for the provided email address.', https_code::server_error_code);
+                return $this->json(false, [], 'Sorry, we are unable to reset password for the provided email address.', https_code::bad_request_code);
             }
         }
-
-        // Return validation errors if any
         return $this->json(false, $model->errors, 'Validation failed', https_code::bad_request_code);
+    }
+
+//    public function actionSendsms()
+//    {
+//        $sms = Yii::$app->sms;
+//
+//        $carrier = 'nexmo';
+//        $number = '0359221014';
+//        $subject = 'Test Message';
+//        $message = 'Hello! This is a test message from Yii2 application.';
+//
+//        try {
+//            $response = $sms->send($carrier, $number, $subject, $message);
+//            return "Message sent successfully. Response: " . print_r($response, true);
+//        } catch (\Exception $e) {
+//            // Xử lý lỗi nếu có
+//            return "Error: " . $e->getMessage();
+//        }
+//    }
+    public function actionLocation()
+    {
+        $districts = Yii::$app->locationComponent->getDistricts();
+        return $this->json(true, ['data' => $districts], 'Component get success', https_code::success_code);
     }
 }

@@ -26,7 +26,7 @@ class OrderDetailForm extends OrderDetail
                 $orderDetail = new OrderDetailForm();
                 $orderDetail->order_id = $this->order_id;
                 $orderDetail->product_id = $productId;
-                $orderDetail->totalPrice = $orderData['totalPrice'];
+                $orderDetail->totalPrice = $orderDetail->product->price;
                 $orderDetail->totalQuantity = $orderData['totalQuantity'];
                 $orderDetail->payment = https_code::payment_cash;
                 $orderDetail->status = https_code::status_pending;

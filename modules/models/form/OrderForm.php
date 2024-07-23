@@ -28,6 +28,7 @@ class OrderForm extends Order
         if($this->validate() && $this->save())
         {
             $this->code_order = Yii::$app->security->generateRandomString(10);
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
             $this->date = date('Y-m-d H:i:s');
             $this->status = https_code::status_pending;
             $this->save();
@@ -36,9 +37,18 @@ class OrderForm extends Order
             $orderDetail->order_id = $this->id;
             if ($orderDetail->addOrderDetail($orderData))
             {
+                $this->sendOrderSuccessEmail($this);
                 return true;
             }
         }
         return false;
+    }
+    protected function sendOrderSuccessEmail($order)
+    {
+        Yii::$app->mailer->compose('layouts/order', ['order' => $order])
+            ->setFrom('no-reply@yourdomain.com')
+            ->setTo($order->user->username)
+            ->setSubject('Order Confirmation')
+            ->send();
     }
 }

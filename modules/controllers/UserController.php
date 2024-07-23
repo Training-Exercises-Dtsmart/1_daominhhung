@@ -22,7 +22,7 @@ class UserController extends Controller
         $pageSize = Yii::$app->request->get('pageSize', 10);
         $search = Yii::$app->request->get('search');
         $filter = Yii::$app->request->get('filter', 'username');
-        
+
         if($user)
         {
             $provider = Pagination::getPagination($user, $pageSize, SORT_ASC, $search, $filter);
@@ -124,8 +124,6 @@ class UserController extends Controller
         if ($model->validate()) {
             if ($model->sendEmail()) {
                 return $this->json(true, [], 'Check your email for further instructions.', https_code::success_code);
-            } else {
-                return $this->json(false, [], 'Sorry, we are unable to reset password for the provided email address.', https_code::bad_request_code);
             }
         }
         return $this->json(false, $model->errors, 'Validation failed', https_code::bad_request_code);

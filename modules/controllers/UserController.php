@@ -18,11 +18,14 @@ class UserController extends Controller
     public function actionIndex(): array
     {
         $user = User::find();
+
+        $pageSize = Yii::$app->request->get('pageSize', 10);
+        $search = Yii::$app->request->get('search');
+        $filter = Yii::$app->request->get('filter', 'username');
+        
         if($user)
         {
-            $pageSize = Yii::$app->request->get('pageSize', 10);
-            $search = Yii::$app->request->get('search');
-            $provider = Pagination::getPagination($user, $pageSize, SORT_ASC, $search);
+            $provider = Pagination::getPagination($user, $pageSize, SORT_ASC, $search, $filter);
             return $this->json(true, ['data' => $provider], 'success', https_code::success_code);
         }
         return $this->json(false, [], 'fails', https_code::bad_request_code);

@@ -12,7 +12,7 @@ class OrderDetailForm extends OrderDetail
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            [['order_id', 'product_id','totalPrice','totalQuantity','payment'], 'required'],
+            [['order_id', 'product_id'], 'required'],
         ]);
     }
 

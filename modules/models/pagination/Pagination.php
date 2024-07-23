@@ -7,7 +7,7 @@ use yii\rest\Serializer;
 
 class Pagination
 {
-    public static function getPagination($query, $pageSize, $sort, $search)
+    public static function getPagination($query, $pageSize, $sort, $search, $filter)
     {
         // Khởi tạo ActiveDataProvider
         $provider = new ActiveDataProvider([
@@ -23,7 +23,7 @@ class Pagination
         ]);
 
         if ($search !== null) {
-            $query->andFilterWhere(['like', 'name', $search]);
+            $query->andFilterWhere(['like', $filter, $search]);
         }
 
         $serializer = new Serializer(['collectionEnvelope' => 'items']);

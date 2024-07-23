@@ -20,10 +20,12 @@ class ProductController extends Controller
     {
         $product = Product::find();
 
+        $pageSize = Yii::$app->request->get('pageSize', 10);
+        $search = Yii::$app->request->get('search');
+        $filter = Yii::$app->request->get('filter', 'name');
+
         if ($product) {
-            $pageSize = Yii::$app->request->get('pageSize', 10);
-            $search = Yii::$app->request->get('search');
-            $provider = Pagination::getPagination($product, $pageSize, SORT_ASC, $search);
+            $provider = Pagination::getPagination($product, $pageSize, SORT_ASC, $search, $filter);
             return $this->json(true, ['data' => $provider], 'success', https_code::success_code);
         }
         return $this->json(false, [], 'success', https_code::bad_request_code);

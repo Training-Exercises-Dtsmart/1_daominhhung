@@ -11,7 +11,14 @@ class https_code
     const notfound_code = 404;
     const error_code = 500;
 
-    //
+    //payment
+    const payment_cash = 1;
+    const payment_paypal = 2;
+
+    //status
+    const status_pending = 1;
+    const status_approved = 2;
+    const status_rejected = 3;
 
     //Delete
     const status_not_delete = 0;

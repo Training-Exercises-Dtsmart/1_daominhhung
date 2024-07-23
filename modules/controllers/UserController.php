@@ -6,7 +6,6 @@ use Yii;
 use abhimanyu\sms\components\Sms;
 use app\models\LoginForm;
 use app\modules\models\form\PasswordResetRequestForm;
-use app\modules\models\form\SignUp;
 use app\modules\models\form\UserForm;
 use app\modules\models\User;
 use app\modules\https_code;
@@ -76,6 +75,7 @@ class UserController extends Controller
     public function actionUpdate($id): array
     {
         $user = UserForm::findOne($id);
+
         if($user == null)
         {
             return $this->json(false, $user->getErrors(), 'User not found', https_code::notfound_code);

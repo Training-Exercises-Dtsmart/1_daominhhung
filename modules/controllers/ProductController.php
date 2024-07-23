@@ -20,8 +20,7 @@ class ProductController extends Controller
     {
         $product = Product::find();
 
-        if($product)
-        {
+        if ($product) {
             $pageSize = Yii::$app->request->get('pageSize', 10);
             $search = Yii::$app->request->get('search');
             $provider = Pagination::getPagination($product, $pageSize, SORT_ASC, $search);
@@ -29,30 +28,6 @@ class ProductController extends Controller
         }
         return $this->json(false, [], 'success', https_code::bad_request_code);
     }
-
-//    public function actionSearch()
-//    {
-//        $modelSearch = new ProductSearch();
-//        $dataProvider = $modelSearch->search(Yii::$app->request->getQueryParams());
-//        $dataModel = $dataProvider->getModels();
-//        if (empty($dataModel)) {
-//            return $this->json(false, [], "Search not found", https_code::bad_request_code);
-//        }
-//
-//        return $this->json(true, $dataProvider->getModels(), "success", https_code::success_code);
-//    }
-//
-//    public function actionSearchcategories()
-//    {
-//        $modelSearch = new ProductSearch();
-//        $dataProvider = $modelSearch->search(Yii::$app->request->getQueryParams());
-//        $dataModel = $dataProvider->getModels();
-//        if(empty($dataModel))
-//        {
-//            return $this->json(false, [], "Search not found", https_code::bad_request_code);
-//        }
-//        return $this->json(true, $dataProvider, "success", https_code::success_code);
-//    }
 
     /**
      * @throws Exception

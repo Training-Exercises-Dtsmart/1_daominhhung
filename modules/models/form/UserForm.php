@@ -42,7 +42,6 @@ class UserForm extends User
     {
         $this->load($userData, '');
 
-
         $uploadedImage = $this->uploadFile($userData);
         if ($uploadedImage) {
             $this->image = $uploadedImage;
@@ -50,11 +49,6 @@ class UserForm extends User
         if (!$this->validate() || !$this->save()) {
             return false;
         }
-
-        if (strlen($this->password) < 8) {
-            return false;
-        }
-
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
         $this->access_token = self::getAccessToken();
         return true;

@@ -14,7 +14,7 @@ class Controller extends BaseController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::class,
-            'except' => ['login','register','index', 'search', 'location', 'sendsms'],
+            'except' => ['login','register','index', 'search', 'location'],
         ];
         $behaviors['access'] = [
             'class' => AccessControl::class,

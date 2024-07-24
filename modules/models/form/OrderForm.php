@@ -4,6 +4,8 @@ namespace app\modules\models\form;
 use Yii;
 use app\models\Order;
 use app\modules\https_code;
+use yii\base\Exception;
+
 class OrderForm extends Order
 {
     public function rules(): array
@@ -15,6 +17,7 @@ class OrderForm extends Order
 
     /**
      * @throws RandomException
+     * @throws Exception
      */
     public function addOrder($orderData): bool
     {
@@ -46,7 +49,7 @@ class OrderForm extends Order
         Yii::$app->mailer->compose('layouts/order', ['order' => $order])
             ->setFrom('no-reply@yourdomain.com')
             ->setTo($order->user->username)
-            ->setSubject('Order Confirmation')
+            ->setSubject('Bill Order')
             ->send();
     }
 }

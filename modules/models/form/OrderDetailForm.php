@@ -2,9 +2,10 @@
 
 namespace app\modules\models\form;
 
-use app\modules\https_code;
 use Yii;
+use app\modules\https_code;
 use app\models\OrderDetail;
+use app\modules\models\Product;
 
 class OrderDetailForm extends OrderDetail
 {
@@ -18,16 +19,30 @@ class OrderDetailForm extends OrderDetail
 
     public function addOrderDetail($orderData): bool
     {
-        if (isset($orderData['product_id']))
+        if (isset($orderData['product_id']) && isset($orderData['quantity']))
         {
             $productIds = explode(',', $orderData['product_id']);
-            foreach ($productIds as $productId)
+            $quantities = explode(',', $orderData['quantity']);
+
+//            if (count($productIds) !== count($quantities)) {
+//                return false;
+//            }
+
+            foreach ($productIds as $index => $productId)
             {
+                $quantity = $quantities[$index];
                 $orderDetail = new OrderDetailForm();
                 $orderDetail->order_id = $this->order_id;
                 $orderDetail->product_id = $productId;
-                $orderDetail->totalPrice = $orderDetail->product->price;
-                $orderDetail->totalQuantity = $orderData['totalQuantity'];
+
+                $product = Product::findOne($productId);
+                if ($product) {
+                    $orderDetail->price = $product->price;
+                } else {
+                    return false;
+                }
+
+                $orderDetail->quantity = $quantity;
                 $orderDetail->payment = https_code::payment_cash;
                 $orderDetail->status = https_code::status_pending;
 

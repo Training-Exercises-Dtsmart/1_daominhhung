@@ -15,8 +15,8 @@ use \app\models\query\OrderDetailQuery;
  * @property integer $id
  * @property integer $product_id
  * @property integer $order_id
- * @property double $totalPrice
- * @property double $totalQuantity
+ * @property double $price
+ * @property double $quantity
  * @property integer $payment
  * @property integer $status
  * @property string $deleted_at
@@ -59,7 +59,7 @@ abstract class OrderDetail extends \yii\db\ActiveRecord
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
             [['product_id', 'order_id', 'payment', 'status'], 'integer'],
-            [['totalPrice', 'totalQuantity'], 'number'],
+            [['price', 'quantity'], 'number'],
             [['deleted_at'], 'safe'],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Order::class, 'targetAttribute' => ['order_id' => 'id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Product::class, 'targetAttribute' => ['product_id' => 'id']]
@@ -75,8 +75,8 @@ abstract class OrderDetail extends \yii\db\ActiveRecord
             'id' => 'ID',
             'product_id' => 'Product ID',
             'order_id' => 'Order ID',
-            'totalPrice' => 'Total Price',
-            'totalQuantity' => 'Total Quantity',
+            'price' => 'Price',
+            'quantity' => 'Quantity',
             'payment' => 'Payment',
             'status' => 'Status',
             'created_at' => 'Created At',

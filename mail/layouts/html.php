@@ -1,9 +1,9 @@
 <?php
 use yii\helpers\Html;
 
-/** @var \yii\web\View $this view components instance */
+/** @var \yii\web\View $this views components instance */
 /** @var \yii\mail\MessageInterface $message the message being composed */
-/** @var string $content main view render result */
+/** @var string $content main views render result */
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

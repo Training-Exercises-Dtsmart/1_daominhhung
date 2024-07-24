@@ -26,6 +26,17 @@ class OrderController extends Controller
         }
         return $this->json(false, [], 'errors', https_code::bad_request_code);
     }
+//    public function actionCart()
+//    {
+//        $cart = [
+//            ['product_id' => 17, 'quantity' => 5],
+//            ['product_id' => 53, 'quantity' => 1],
+//        ];
+//        Yii::$app->session->set('cart', $cart);
+//        $cart = Yii::$app->session->get('cart', []);
+//
+//        return $this->json(true, ['data' => $cart], 'success', https_code::success_code);
+//    }
     public function actionCreate()
     {
         $orderForm = new OrderForm();
@@ -36,4 +47,5 @@ class OrderController extends Controller
         }
         return $this->json(false, ['errors' => $orderForm->getErrors()],'Create order fail', https_code::error_code);
     }
+
 }

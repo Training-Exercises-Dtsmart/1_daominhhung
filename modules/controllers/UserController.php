@@ -32,6 +32,10 @@ class UserController extends Controller
         return $this->json(false, [], 'fails', https_code::bad_request_code);
     }
 
+    /**
+     * @throws Exception
+     * @throws \yii\base\Exception
+     */
     public function actionLogin(): array
     {
        $model = new LoginForm();

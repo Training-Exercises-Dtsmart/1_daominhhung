@@ -105,13 +105,13 @@ $totalPrice = 0;
                 <?php foreach ($order->orderDetails as $orderDetail): ?>
                     <?php
                     $product = $orderDetail->product;
-                    $totalPrice += $orderDetail->totalPrice;
+                    $totalPrice += $orderDetail->price;
                     ?>
                     <tr>
                         <td><?= Html::encode($product->name) ?></td>
-                        <td><?= Html::encode($orderDetail->totalQuantity) ?></td>
+                        <td><?= Html::encode($orderDetail->quantity) ?></td>
                         <td><?= Html::encode(number_format($product->price, 0, ',', '.') . ' VND') ?></td>
-                        <td><?= Html::encode(number_format(($product->price) * ($orderDetail->totalQuantity), 0, ',', '.') . ' VND') ?></td>
+                        <td><?= Html::encode(number_format(($product->price) * ($orderDetail->quantity), 0, ',', '.') . ' VND') ?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

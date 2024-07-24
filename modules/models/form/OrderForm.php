@@ -9,7 +9,7 @@ class OrderForm extends Order
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            [['user_id','order_address'], 'required'],
+            [['user_id'], 'required'],
         ]);
     }
 
@@ -21,14 +21,15 @@ class OrderForm extends Order
         $user = Yii::$app->user->identity;
         $this->attributes = $orderData;
         $this->user_id = $user->id;
+
         if($orderData)
         {
             $this->order_address = $orderData['order_address'];
         }
+
         if($this->validate() && $this->save())
         {
             $this->code_order = Yii::$app->security->generateRandomString(10);
-            date_default_timezone_set('Asia/Ho_Chi_Minh');
             $this->date = date('Y-m-d H:i:s');
             $this->status = https_code::status_pending;
             $this->save();

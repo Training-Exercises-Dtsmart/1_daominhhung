@@ -9,7 +9,10 @@ class Pagination
 {
     public static function getPagination($query, $pageSize, $sort, $search, $filter)
     {
-        // Khởi tạo ActiveDataProvider
+        if ($search !== null) {
+            $query->andFilterWhere(['like', $filter, $search]);
+        }
+
         $provider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -21,14 +24,6 @@ class Pagination
                 ],
             ],
         ]);
-
-        if ($search !== null) {
-            $query->andFilterWhere(['like', $filter, $search]);
-        }
-
-        $serializer = new Serializer(['collectionEnvelope' => 'items']);
-        $data = $serializer->serialize($provider);
-
-        return $data;
+        return (new Serializer(['collectionEnvelope' => 'items']))->serialize($provider);
     }
 }

@@ -66,12 +66,12 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return \app\modules\models\form\UserForm
+     * @return \app\modules\models\form\SignInForm
      */
-    public function getUser(): \app\modules\models\form\UserForm
+    public function getUser(): \app\modules\models\form\SignInForm
     {
         if ($this->_user === false) {
-            $this->_user = \app\modules\models\form\UserForm::findByUsername($this->username);
+            $this->_user = \app\modules\models\form\SignInForm::findByUsername($this->username);
         }
         return $this->_user;
     }

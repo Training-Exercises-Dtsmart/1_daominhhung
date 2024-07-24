@@ -2,14 +2,15 @@
 
 namespace app\modules\controllers;
 
-use Yii;
-use abhimanyu\sms\components\Sms;
 use app\models\LoginForm;
+use Yii;
+use app\modules\models\form\SignInForm;
+use abhimanyu\sms\components\Sms;
 use app\modules\models\form\PasswordResetRequestForm;
 use app\modules\models\form\UserForm;
 use app\modules\models\User;
-use app\modules\https_code;
 use app\modules\models\pagination\Pagination;
+use app\modules\https_code;
 use yii\db\Exception;
 
 
@@ -39,16 +40,16 @@ class UserController extends Controller
             $user = $model->getUser();
             if($user->access_token == null)
             {
-                $user->access_token = UserForm::getAccessToken();
+                $user->access_token = SignInForm::getAccessToken();
                 $user->save();
             }
-            return $this->json(true, [], 'Login success', https_code::success_code);
+            return $this->json(true, ['data' => $user], 'Login success', https_code::success_code);
         }
         return $this->json(false, [], 'Login false', https_code::bad_request_code);
     }
 
     /**
-     * @throws Exception
+     * @throws Exception`
      * @throws \yii\base\Exception
      */
     public function actionRegister(): array

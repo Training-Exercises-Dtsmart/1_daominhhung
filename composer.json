@@ -21,7 +21,8 @@
         "yiisoft/yii2-swiftmailer": "^2.0",
         "yiisoft/yii2-queue": "^2.3",
       "ext-curl": "*",
-        "abhi1693/yii2-sms": "2.0.0"
+        "abhi1693/yii2-sms": "2.0.0",
+        "yiithings/yii2-dotenv": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

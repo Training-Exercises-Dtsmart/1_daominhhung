@@ -19,10 +19,7 @@ class UserForm extends User
         ]);
     }
 
-    public static function findByUsername($username): ?UserForm
-    {
-        return static::findOne(['username' => $username]);
-    }
+
     public function validatePassword($password): bool
     {
         return Yii::$app->getSecurity()->validatePassword($password, $this->password);

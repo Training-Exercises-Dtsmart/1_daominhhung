@@ -33,7 +33,6 @@ class OrderDetailForm extends OrderDetail
 
                 if (!$orderDetail->validate() || !$orderDetail->save())
                 {
-                    $this->addErrors($orderDetail->getErrors());
                     return false;
                 }
             }

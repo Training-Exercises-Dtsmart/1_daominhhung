@@ -22,15 +22,12 @@ class OrderForm extends Order
         $this->attributes = $orderData;
         $this->user_id = $user->id;
 
-        if($orderData)
-        {
-            $this->order_address = $orderData['order_address'];
-        }
-
         if($this->validate() && $this->save())
         {
             $this->code_order = Yii::$app->security->generateRandomString(10);
             $this->date = date('Y-m-d H:i:s');
+            $this->order_address = $orderData['order_address'];
+
             $this->status = https_code::status_pending;
             $this->save();
 

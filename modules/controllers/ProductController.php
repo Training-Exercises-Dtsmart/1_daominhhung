@@ -23,9 +23,16 @@ class ProductController extends Controller
         $pageSize = Yii::$app->request->get('pageSize', 10);
         $search = Yii::$app->request->get('search');
         $filter = Yii::$app->request->get('filter', 'name');
+//        $cacheKey = 'product_index_' . md5(json_encode(Yii::$app->request->queryParams));
+//        $cachedData = Yii::$app->cache->get($cacheKey);
+//        if ($cachedData !== false) {
+//            // Nếu dữ liệu đã được cache, trả về dữ liệu đã cache
+//            return $this->json(true, ['data' => $cachedData], 'success', https_code::success_code);
+//        }
 
         if ($product) {
             $provider = Pagination::getPagination($product, $pageSize, SORT_ASC, $search, $filter);
+//            Yii::$app->cache->set($cacheKey, $provider, 3600);
             return $this->json(true, ['data' => $provider], 'success', https_code::success_code);
         }
         return $this->json(false, [], 'success', https_code::bad_request_code);

@@ -21,6 +21,7 @@ $config = [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
+            'keyPrefix' => 'myapp'
         ],
 //        'user' => [
 //            'identityClass' => 'app\models\User',

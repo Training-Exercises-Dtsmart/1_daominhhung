@@ -71,6 +71,14 @@ $totalPrice = 0;
             color: #777777;
             font-size: 12px;
         }
+        .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -110,6 +118,10 @@ $totalPrice = 0;
             </table>
         </div>
         <p><strong>Total Order: <?= Html::encode(number_format($totalPrice, 0, ',', '.') . ' VND') ?></strong></p>
+
+        <div class="image-container">
+            <img src="https://w0.peakpx.com/wallpaper/119/390/HD-wallpaper-goat-cristiano-ronaldo-2021.jpg" alt="Order Image">
+        </div>
     </div>
     <div class="footer">
         &copy; <?= date('Y') ?> Your Company. All rights reserved.

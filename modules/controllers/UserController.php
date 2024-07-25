@@ -2,34 +2,33 @@
 
 namespace app\modules\controllers;
 
-use app\models\LoginForm;
 use Yii;
 use app\modules\models\form\SignInForm;
-use abhimanyu\sms\components\Sms;
 use app\modules\models\form\PasswordResetRequestForm;
 use app\modules\models\form\UserForm;
 use app\modules\models\User;
-use app\modules\models\pagination\Pagination;
-use app\modules\https_code;
+use app\models\LoginForm;
+use app\modules\HttpCode;
 use yii\db\Exception;
-
+use app\modules\models\search\Search;
 
 class UserController extends Controller
 {
+    const STATUS_ACTIVE = 0;
+    const STATUS_DELETE = 1;
     public function actionIndex(): array
     {
         $user = User::find();
-
-        $pageSize = Yii::$app->request->get('pageSize', 10);
-        $search = Yii::$app->request->get('search');
+        $searchModel = new Search();
+        $param = Yii::$app->request->queryParams;
         $filter = Yii::$app->request->get('filter', 'username');
+        $dataProvider = $searchModel->search($user, $param, $filter);
 
-        if($user)
+        if($dataProvider->getModels())
         {
-            $provider = Pagination::getPagination($user, $pageSize, SORT_ASC, $search, $filter);
-            return $this->json(true, ['data' => $provider], 'success', https_code::success_code);
+            return $this->json(true, ['data' => $dataProvider], 'success', HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, [], 'fails', https_code::bad_request_code);
+        return $this->json(false, [], 'fails', HttpCode::BADREQUESTCODE);
     }
 
     /**
@@ -47,9 +46,9 @@ class UserController extends Controller
                 $user->access_token = SignInForm::getAccessToken();
                 $user->save();
             }
-            return $this->json(true, ['data' => $user], 'Login success', https_code::success_code);
+            return $this->json(true, ['data' => $user], 'Login success', HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, [], 'Login false', https_code::bad_request_code);
+        return $this->json(false, [], 'Login false', HttpCode::BADREQUESTCODE);
     }
 
     /**
@@ -61,9 +60,9 @@ class UserController extends Controller
         $user = new UserForm();
         $userData = $user->load(Yii::$app->request->post());
         if ($user->register($userData)) {
-            return $this->json(true, ['data' => $user], 'User registered success', https_code::bad_request_code);
+            return $this->json(true, ['data' => $user], 'User registered success', HttpCode::BADREQUESTCODE);
         }
-        return $this->json(false, ['errors' => $user->getErrors()], 'User registered fails', https_code::success_code);
+        return $this->json(false, ['errors' => $user->getErrors()], 'User registered fails', HttpCode::SUCCESSCODE);
     }
 
     /**
@@ -72,9 +71,9 @@ class UserController extends Controller
     public function actionLogout($id): array
     {
         if (UserForm::logout($id)) {
-            return $this->json(true, [], 'success', https_code::success_code);
+            return $this->json(true, [], 'success', HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, [], 'logout fails', https_code::bad_request_code);
+        return $this->json(false, [], 'logout fails', HttpCode::BADREQUESTCODE);
     }
 
     /**
@@ -86,16 +85,16 @@ class UserController extends Controller
 
         if($user == null)
         {
-            return $this->json(false, $user->getErrors(), 'User not found', https_code::notfound_code);
+            return $this->json(false, $user->getErrors(), 'User not found', HttpCode::NOTFOUNDCODE);
         }
 
         $data = $user->load(Yii::$app->request->post());
         $user->uploadFile($data);
         if ($user->validate() && $user->save()) {
 
-            return $this->json(true, ['data' => $user], 'User updated successfully', https_code::success_code);
+            return $this->json(true, ['data' => $user], 'User updated successfully', HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, $user->getErrors(), 'User not updated', https_code::bad_request_code);
+        return $this->json(false, $user->getErrors(), 'User not updated', HttpCode::BADREQUESTCODE);
     }
 
     /**
@@ -106,11 +105,11 @@ class UserController extends Controller
         $user = User::find()->select('id')->where(['id' => $id])->one();
         if($user)
         {
-            $user->status = https_code::status_delete;
+            $user->status = self::statusDelete;
             $user->save();
-            return $this->json(true, ['data' => $user], 'success', https_code::success_code);
+            return $this->json(true, ['data' => $user], 'success', HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, [], 'Can not delete', https_code::bad_request_code);
+        return $this->json(false, [], 'Can not delete', HttpCode::BADREQUESTCODE);
 
     }
 
@@ -120,7 +119,7 @@ class UserController extends Controller
         $email = $data['email'] ?? null;
 
         if (empty($email)) {
-            return $this->json(false, [], 'Email is required', https_code::bad_request_code);
+            return $this->json(false, [], 'Email is required', HttpCode::BADREQUESTCODE);
         }
 
         $model = new PasswordResetRequestForm();
@@ -128,10 +127,10 @@ class UserController extends Controller
 
         if ($model->validate()) {
             if ($model->sendEmail()) {
-                return $this->json(true, [], 'Check your email for further instructions.', https_code::success_code);
+                return $this->json(true, [], 'Check your email for further instructions.', HttpCode::SUCCESSCODE);
             }
         }
-        return $this->json(false, $model->errors, 'Validation failed', https_code::bad_request_code);
+        return $this->json(false, $model->errors, 'Validation failed', HttpCode::BADREQUESTCODE);
     }
 
 //    public function actionSendsms()
@@ -151,9 +150,9 @@ class UserController extends Controller
 //            return "Error: " . $e->getMessage();
 //        }
 //    }
-    public function actionLocation()
+    public function actionLocation(): array
     {
         $districts = Yii::$app->locationComponent->getDistricts();
-        return $this->json(true, ['data' => $districts], 'Component get success', https_code::success_code);
+        return $this->json(true, ['data' => $districts], 'Component get success', HttpCode::SUCCESSCODE);
     }
 }

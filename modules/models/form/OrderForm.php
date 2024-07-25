@@ -3,11 +3,11 @@ namespace app\modules\models\form;
 
 use Yii;
 use app\models\Order;
-use app\modules\https_code;
 use yii\base\Exception;
 
 class OrderForm extends Order
 {
+    const STATUS_PENDING = 1;
     public function rules(): array
     {
         return array_merge(parent::rules(), [
@@ -29,9 +29,9 @@ class OrderForm extends Order
         {
             $this->code_order = Yii::$app->security->generateRandomString(10);
             $this->date = date('Y-m-d H:i:s');
-            $this->order_address = $orderData['order_address'];
+            $this->order_address = $orderData['order_address'] ?? '';
 
-            $this->status = https_code::status_pending;
+            $this->status = self::STATUS_PENDING;
             $this->save();
 
             $orderDetail = new OrderDetailForm();

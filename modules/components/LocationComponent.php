@@ -17,8 +17,7 @@ class LocationComponent extends Component
 
         if ($httpcode == 200) {
             return json_decode($response, true);
-        } else {
-            throw new \yii\web\HttpException(500, 'Failed to fetch data from API');
         }
+        return false;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace app\modules\models\form;
 
+use app\modules\https_code;
 use Yii;
 use app\modules\models\User;
 use yii\base\Exception;
@@ -8,7 +9,7 @@ use yii\web\UploadedFile;
 
 class UserForm extends User
 {
-
+    const statusActive = 0;
     public function rules(): array
     {
         return array_merge(parent::rules(), [
@@ -48,6 +49,7 @@ class UserForm extends User
         }
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
         $this->access_token = self::getAccessToken();
+        $this->status = self::statusActive;
         return true;
     }
     /**
@@ -69,7 +71,7 @@ class UserForm extends User
         if ($avatarFile !== null) {
             $oldImage = $this->image;
 
-            $uploadPath = Yii::getAlias('@app/modules/models/upload/user/');
+            $uploadPath = Yii::getAlias('@app/web/assets/images/user/');
             $filename = uniqid() . '.' . $avatarFile->extension;
             $filePath = $uploadPath . $filename;
 

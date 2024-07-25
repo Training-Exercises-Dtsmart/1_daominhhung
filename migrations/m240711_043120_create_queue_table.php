@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%Queue}}`.
+ * Handles the creation of table `{{%queue}}`.
  */
 class m240711_043120_create_queue_table extends Migration
 {
@@ -12,7 +12,7 @@ class m240711_043120_create_queue_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('{{%Queue}}', [
+        $this->createTable('{{%queue}}', [
             'id' => $this->primaryKey(),
             'channel' => $this->string(),
             'job' => $this->string(),
@@ -31,6 +31,6 @@ class m240711_043120_create_queue_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%Queue}}');
+        $this->dropTable('{{%queue}}');
     }
 }

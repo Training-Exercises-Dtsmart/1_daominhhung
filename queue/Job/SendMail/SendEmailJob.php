@@ -1,10 +1,11 @@
 <?php
-namespace app\modules\models\queue;
+
+namespace app\queue\Job\SendMail;
 
 use Yii;
-use yii\base\BaseObject;
 use yii\db\Exception;
 use yii\queue\JobInterface;
+use app\queue\Job\SendMail\SendMail;
 
 class SendEmailJob implements JobInterface
 {

@@ -4,54 +4,46 @@ namespace app\modules\controllers;
 
 
 use Yii;
-use app\modules\models\pagination\Pagination;
 use app\modules\models\form\ProductForm;
-use app\modules\models\search\ProductSearch;
 use app\modules\models\Product;
-use app\modules\https_code;
+use app\models\Review;
+use app\modules\HttpCode;
 use yii\db\Exception;
-use yii\filters\AccessControl;
-use yii\filters\auth\HttpBearerAuth;
-
+use app\modules\models\search\Search;
 class ProductController extends Controller
 {
-
-    public function actionIndex()
+    const STATUS_ACTIVE = 0;
+    const STATUS_DELETE = 1;
+    public function actionIndex(): array
     {
         $product = Product::find();
-
-        $pageSize = Yii::$app->request->get('pageSize', 10);
-        $search = Yii::$app->request->get('search');
+        $searchModel = new Search();
+        $param = Yii::$app->request->queryParams;
         $filter = Yii::$app->request->get('filter', 'name');
-//        $cacheKey = 'product_index_' . md5(json_encode(Yii::$app->request->queryParams));
-//        $cachedData = Yii::$app->cache->get($cacheKey);
-//        if ($cachedData !== false) {
-//            // Nếu dữ liệu đã được cache, trả về dữ liệu đã cache
-//            return $this->json(true, ['data' => $cachedData], 'success', https_code::success_code);
-//        }
+        $dataProvider = $searchModel->search($product, $param, $filter);
 
-        if ($product) {
-            $provider = Pagination::getPagination($product, $pageSize, SORT_ASC, $search, $filter);
-//            Yii::$app->cache->set($cacheKey, $provider, 3600);
-            return $this->json(true, ['data' => $provider], 'success', https_code::success_code);
+        if ($dataProvider->getModels()) {
+            return $this->json(true, ['data' => $dataProvider->getModels()], 'success', HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, [], 'success', https_code::bad_request_code);
+        return $this->json(false, [], 'No data found', HttpCode::BADREQUESTCODE);
     }
 
     /**
      * @throws Exception
      */
-    public function actionCreate()
+    public function actionCreate(): array
     {
         $product = new ProductForm();
         $data = $product->load(Yii::$app->request->post());
         $product->user_id = Yii::$app->user->identity->id;
         $product->uploadFiles($data);
+        $product->status = self::STATUS_ACTIVE;
+
         if($product->validate() && $product->save())
         {
-            return $this->json(true, ['data' => $product], https_code::success_code);
+            return $this->json(true, ['data' => $product], HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, $product->getErrors(), "Create product fail", https_code::bad_request_code);
+        return $this->json(false, $product->getErrors(), "Create product fail", HttpCode::BADREQUESTCODE);
     }
 
     /**
@@ -63,7 +55,7 @@ class ProductController extends Controller
 
         if($product == null)
         {
-            return $this->json(false, [], "Product not found", https_code::notfound_code);
+            return $this->json(false, [], "Product not found", HttpCode::NOTFOUNDCODE);
         }
 
         $data = $product->load(Yii::$app->request->post());
@@ -71,9 +63,9 @@ class ProductController extends Controller
         $product->uploadFiles($data);
         if($product->validate() && $product->save())
         {
-            return $this->json(true, ['data' => $product],"Update Product success", https_code::success_code);
+            return $this->json(true, ['data' => $product],"Update Product success", HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, $product->getErrors(),"Update Product fails", https_code::bad_request_code);
+        return $this->json(false, $product->getErrors(),"Update Product fails", HttpCode::BADREQUESTCODE);
     }
 
     /**
@@ -83,10 +75,28 @@ class ProductController extends Controller
     {
         $product = Product::find()->select(['id'])->where(['id' => $id])->one();
         if ($product) {
-            $product->status = https_code::status_delete;
+            $product->status = self::STATUS_DELETE;
             $product->save();
-            return $this->json(true, $product, "success", https_code::success_code);
+            return $this->json(true, $product, "success", HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, [], "Product not found", https_code::notfound_code);
+        return $this->json(false, [], "Product not found", HttpCode::NOTFOUNDCODE);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function actionReview()
+    {
+        $review = new Review();
+        $review->load(Yii::$app->request->post(), '');
+        $review->user_id = Yii::$app->user->identity->id;
+
+        $review->status = self::STATUS_ACTIVE;
+
+        if($review->validate() && $review->save())
+        {
+            return $this->json(true, ['data' => $review], 'success', HttpCode::SUCCESSCODE);
+        }
+        return $this->json(false, $review->getErrors(), "Create product fail", HttpCode::BADREQUESTCODE);
     }
 }

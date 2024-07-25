@@ -1,5 +1,6 @@
 <?php
-namespace app\modules\models\queue;
+
+namespace app\queue\Job\SendMail;
 
 use Yii;
 use yii\base\BaseObject;
@@ -28,15 +29,6 @@ class SendMail extends BaseObject implements JobInterface
                 ->send();
 
             Yii::info('Đã gửi email cho ' . $this->email . ' thành công.', 'queue');
-
-            // Lưu thông tin công việc đã hoàn thành vào bảng complete_job
-//            Yii::$app->db->createCommand()->insert('{{%complete_job}}', [
-//                'job_id' => $queue->id,
-//                'job_data' => serialize($this),
-//                'completed_at' => time(),
-//                'status' => 'completed',
-//            ])->execute();
-
         } catch (\Exception $e) {
             Yii::error('Lỗi khi gửi email cho ' . $this->email . ': ' . $e->getMessage(), 'queue');
         }

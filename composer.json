@@ -23,7 +23,8 @@
       "ext-curl": "*",
         "abhi1693/yii2-sms": "2.0.0",
         "yiithings/yii2-dotenv": "*",
-      "ext-json": "*"
+      "ext-json": "*",
+        "yiisoft/yii2-redis": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

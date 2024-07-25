@@ -19,19 +19,25 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'KzeF5007GLVxtoLvEjbok1tnFsISYelA',
         ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'database' => 0,
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
             'keyPrefix' => 'myapp'
         ],
-        'session' => [
-            'class' => 'yii\web\Session',
-            'cookieParams' => [
-                'path' => '/',
-                'httpOnly' => true,
-            ],
-            'timeout' => 3600,
-            'savePath' => '@runtime/session',
-        ],
+//        'session' => [
+//            'class' => 'yii\web\Session',
+//            'cookieParams' => [
+//                'path' => '/',
+//                'httpOnly' => true,
+//            ],
+//            'timeout' => 3600,
+//            'savePath' => '@runtime/session',
+//        ],
 //        'user' => [
 //            'identityClass' => 'app\models\User',
 //            'enableAutoLogin' => true,
@@ -69,7 +75,7 @@ $config = [
             ],
         ],
 //        'queue' => [
-//            'class' => \yii\queue\file\Queue::class,
+//            'class' => \yii\queue\file\queue::class,
 //            'path' => '@runtime/queue',
 //          ],
         'queue' => [

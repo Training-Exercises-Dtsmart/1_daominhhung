@@ -9,7 +9,8 @@ use app\modules\models\Product;
 
 class OrderDetailForm extends OrderDetail
 {
-
+    const STATUS_PENDING = 1;
+    const PAYMENT_CASH = 1;
     public function rules(): array
     {
         return array_merge(parent::rules(), [
@@ -24,10 +25,6 @@ class OrderDetailForm extends OrderDetail
             $productIds = explode(',', $orderData['product_id']);
             $quantities = explode(',', $orderData['quantity']);
 
-//            if (count($productIds) !== count($quantities)) {
-//                return false;
-//            }
-
             foreach ($productIds as $index => $productId)
             {
                 $quantity = $quantities[$index];
@@ -38,13 +35,11 @@ class OrderDetailForm extends OrderDetail
                 $product = Product::findOne($productId);
                 if ($product) {
                     $orderDetail->price = $product->price;
-                } else {
-                    return false;
                 }
 
                 $orderDetail->quantity = $quantity;
-                $orderDetail->payment = https_code::payment_cash;
-                $orderDetail->status = https_code::status_pending;
+                $orderDetail->payment = self::PAYMENT_CASH;
+                $orderDetail->status = self::STATUS_PENDING;
 
                 if (!$orderDetail->validate() || !$orderDetail->save())
                 {

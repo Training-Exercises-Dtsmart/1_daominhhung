@@ -24,7 +24,7 @@ class ProductForm extends Product
     {
         $avatarFiles = UploadedFile::getInstancesByName('image');
 
-        $uploadPath = Yii::getAlias('@app/modules/models/upload/product/');
+        $uploadPath = Yii::getAlias('@app/web/assets/images/product/');
         if (!is_dir($uploadPath)) {
             mkdir($uploadPath, 0777, true);
         }

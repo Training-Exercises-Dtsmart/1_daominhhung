@@ -2,50 +2,42 @@
 
 namespace app\modules\controllers;
 
-use app\models\Order;
 use Yii;
+use app\models\Order;
 use app\modules\models\form\OrderForm;
-use app\modules\models\pagination\Pagination;
-use app\modules\https_code;
-
+use app\modules\HttpCode;
+use yii\db\Exception;
+use app\modules\models\search\Search;
 
 class OrderController extends Controller
 {
-    public function actionIndex()
+    public function actionIndex(): array
     {
         $order = Order::find();
-
-        $pageSize = Yii::$app->request->get('pageSize', 10);
-        $search = Yii::$app->request->get('search');
+        $searchModel = new Search();
+        $param = Yii::$app->request->queryParams;
         $filter = Yii::$app->request->get('filter', 'code_order');
+        $dataProvider = $searchModel->search($order, $param, $filter);
 
-        if($order)
-        {
-            $provider = Pagination::getPagination($order, $pageSize, SORT_ASC, $search, $filter);
-            return $this->json(true, ['data' => $provider], 'success', https_code::success_code);
+        if ($dataProvider->getModels()) {
+            return $this->json(true, ['data' => $dataProvider->getModels()], 'success', HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, [], 'errors', https_code::bad_request_code);
+        return $this->json(false, [], 'errors', HttpCode::BADREQUESTCODE);
     }
-//    public function actionCart()
-//    {
-//        $cart = [
-//            ['product_id' => 17, 'quantity' => 5],
-//            ['product_id' => 53, 'quantity' => 1],
-//        ];
-//        Yii::$app->session->set('cart', $cart);
-//        $cart = Yii::$app->session->get('cart', []);
-//
-//        return $this->json(true, ['data' => $cart], 'success', https_code::success_code);
-//    }
-    public function actionCreate()
+
+    /**
+     * @throws Exception
+     * @throws \yii\base\Exception
+     */
+    public function actionCreate(): array
     {
         $orderForm = new OrderForm();
         $orderData = Yii::$app->request->post();
 
         if($orderForm->addOrder($orderData) && $orderForm->save()){
-            return $this->json(true, ['data' => $orderForm], 'Create order successfully', https_code::success_code);
+            return $this->json(true, ['data' => $orderForm], 'Create order successfully', HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, ['errors' => $orderForm->getErrors()],'Create order fail', https_code::error_code);
+        return $this->json(false, ['errors' => $orderForm->getErrors()],'Create order fail', HttpCode::ERRORCODE);
     }
 
 }

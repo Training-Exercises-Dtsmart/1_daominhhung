@@ -5,7 +5,7 @@ namespace app\models\query;
 use \app\models\Queue;
 
 /**
- * This is the ActiveQuery class for [[Queue]].
+ * This is the ActiveQuery class for [[queue]].
  *
  * @see \app\models\Queue
  * @method Queue[] all($db = null)

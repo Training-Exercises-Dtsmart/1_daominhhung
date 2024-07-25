@@ -6,6 +6,7 @@ use Yii;
 use app\modules\https_code;
 use app\models\OrderDetail;
 use app\modules\models\Product;
+use yii\db\Exception;
 
 class OrderDetailForm extends OrderDetail
 {
@@ -18,6 +19,9 @@ class OrderDetailForm extends OrderDetail
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function addOrderDetail($orderData): bool
     {
         if (isset($orderData['product_id']) && isset($orderData['quantity']))
@@ -32,6 +36,17 @@ class OrderDetailForm extends OrderDetail
                 $orderDetail->order_id = $this->order_id;
                 $orderDetail->product_id = $productId;
 
+                $product = Product::findOne($productId);
+                if($product)
+                {
+                    if ($product->stock < $quantity) {
+                        return false;
+                    }
+                    $product->stock -= $quantity;
+                    if (!$product->save()) {
+                        return false;
+                    }
+                }
                 $product = Product::findOne($productId);
                 if ($product) {
                     $orderDetail->price = $product->price;

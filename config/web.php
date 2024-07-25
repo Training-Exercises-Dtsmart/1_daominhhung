@@ -1,8 +1,7 @@
 <?php
 
-use app\modules\Module;
-
 use yii\filters\Cors;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -98,7 +97,7 @@ $config = [
         ],
 
         'locationComponent' => [
-            'class' => 'app\modules\components\LocationComponent',
+            'class' => 'app\components\Location\LocationComponent',
         ],
 
         'sms' => [

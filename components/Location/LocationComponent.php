@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\components;
+namespace app\components\Location;
 
 use yii\base\Component;
 
@@ -12,10 +12,9 @@ class LocationComponent extends Component
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
         curl_close($ch);
 
-        if ($httpcode == 200) {
+        if ($httpcode) {
             return json_decode($response, true);
         }
         return false;

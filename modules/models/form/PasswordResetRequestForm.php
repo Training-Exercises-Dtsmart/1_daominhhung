@@ -3,11 +3,12 @@ namespace app\modules\models\form;
 
 use Yii;
 use yii\base\Model;
-use app\modules\https_code;
 use app\modules\models\User;
+use yii\db\Exception;
 
 class PasswordResetRequestForm extends Model
 {
+    const STATUS_NOT_DELETE = 0;
     public $email;
 
     public function rules(): array
@@ -18,19 +19,22 @@ class PasswordResetRequestForm extends Model
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => 'app\modules\models\User',
-                'targetAttribute' => 'username', // Mapping 'email' to 'username' in database
-                'filter' => ['status' => https_code::status_not_delete],
+                'targetAttribute' => 'username',
+                'filter' => ['status' => self::STATUS_NOT_DELETE],
                 'message' => 'There is no user with this email address.'
             ],
         ];
     }
 
-    public function sendEmail()
+    /**
+     * @throws Exception
+     */
+    public function sendEmail(): bool
     {
         /* @var $user User */
         $user = User::findOne([
-            'status' => https_code::status_not_delete,
-            'username' => $this->email, // Matching 'email' to 'username' in database
+            'status' => self::STATUS_NOT_DELETE,
+            'username' => $this->email,
         ]);
 
         if (!$user) {

@@ -7,7 +7,7 @@ use yii\base\Exception;
 
 class OrderForm extends Order
 {
-    const STATUS_PENDING = 1;
+    const STATUS_PENDING = 0;
     public function rules(): array
     {
         return array_merge(parent::rules(), [
@@ -16,7 +16,6 @@ class OrderForm extends Order
     }
 
     /**
-     * @throws RandomException
      * @throws Exception
      */
     public function addOrder($orderData): bool
@@ -44,7 +43,7 @@ class OrderForm extends Order
         }
         return false;
     }
-    protected function sendOrderSuccessEmail($order)
+     protected function sendOrderSuccessEmail($order)
     {
         Yii::$app->mailer->compose('layouts/order', ['order' => $order])
             ->setFrom('no-reply@yourdomain.com')

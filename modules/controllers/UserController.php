@@ -105,7 +105,7 @@ class UserController extends Controller
         $user = User::find()->select('id')->where(['id' => $id])->one();
         if($user)
         {
-            $user->status = self::statusDelete;
+            $user->status = self::STATUS_DELETE;
             $user->save();
             return $this->json(true, ['data' => $user], 'success', HttpCode::SUCCESSCODE);
         }
@@ -113,6 +113,9 @@ class UserController extends Controller
 
     }
 
+    /**
+     * @throws Exception
+     */
     public function actionPasswordReset(): array
     {
         $data = Yii::$app->request->post();

@@ -49,7 +49,7 @@ class ProductController extends Controller
     /**
      * @throws Exception
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id): array
     {
         $product = ProductForm::findOne($id);
 
@@ -71,7 +71,7 @@ class ProductController extends Controller
     /**
      * @throws Exception
      */
-    public function actionDelete($id)
+    public function actionDelete($id): array
     {
         $product = Product::find()->select(['id'])->where(['id' => $id])->one();
         if ($product) {
@@ -85,7 +85,7 @@ class ProductController extends Controller
     /**
      * @throws Exception
      */
-    public function actionReview()
+    public function actionReview(): array
     {
         $review = new Review();
         $review->load(Yii::$app->request->post(), '');

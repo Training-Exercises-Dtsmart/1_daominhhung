@@ -4,9 +4,14 @@ namespace app\modules\controllers;
 
 use Yii;
 use app\modules\controllers\Controller;
+use yii\base\Exception;
 
 class RbacController extends Controller
 {
+    /**
+     * @throws Exception
+     * @throws \Exception
+     */
     public function actionIndex()
     {
         $auth = Yii::$app->authManager;

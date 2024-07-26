@@ -3,7 +3,6 @@
 namespace app\modules\models\form;
 
 use Yii;
-use app\modules\https_code;
 use app\models\OrderDetail;
 use app\modules\models\Product;
 use yii\db\Exception;

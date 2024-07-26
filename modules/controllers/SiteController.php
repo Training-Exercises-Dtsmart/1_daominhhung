@@ -16,12 +16,12 @@ class SiteController extends Controller
             ->setHtmlBody('<b>HTML content</b>')
             ->send();
     }
-    public function actionSendmailqueue()
+    public function actionSendmailQueue(): array
     {
         $job = new SendEmailJob();
         Yii::$app->queue->push($job);
 
-        return ['status' => 'success', 'message' => 'Đã đưa công việc gửi email vào hàng đợi.'];
+        return ['status' => 'success', 'message' => 'Add Queue Success'];
 
     }
 }

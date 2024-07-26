@@ -6,16 +6,29 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\rest\Controller as BaseController;
 use yii\filters\auth\HttpBearerAuth;
-
-class Controller extends BaseController
+use yii\filters\RateLimitInterface;
+use yii\filters\RateLimiter;
+class Controller extends BaseController implements RateLimitInterface
 {
+    const HTTP_CODE_ENABLE = 200;
+    public int $rateLimit = 60;
+    public $allowance;
+    public $allowance_updated_at;
     public function behaviors(): array
     {
         $behaviors = parent::behaviors();
+
+        $behaviors['rateLimiter'] = [
+            'class' => RateLimiter::class,
+            'enableRateLimitHeaders' => false,
+            'except' => ['login', 'register', 'index', 'search', 'location'],
+        ];
+
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::class,
             'except' => ['login','register','index', 'search', 'location'],
         ];
+
         $behaviors['access'] = [
             'class' => AccessControl::class,
             'only' => ['index', 'update', 'delete', 'create', 'logout'],
@@ -45,8 +58,23 @@ class Controller extends BaseController
         return $behaviors;
     }
 
-    // Hàm trả về JSON response
-    public function json($status = true, $data = [], $message = "", $code = 200): array
+    public function getRateLimit($request, $action): array
+    {
+        return [$this->rateLimit, 60];
+    }
+
+    public function loadAllowance($request, $action): array
+    {
+        return [$this->allowance, $this->allowance_updated_at];
+    }
+
+    public function saveAllowance($request, $action, $allowance, $timestamp)
+    {
+        $this->allowance = $allowance;
+        $this->allowance_updated_at = $timestamp;
+    }
+
+    public function json($status = true, $data = [], $message = "", $code = self::HTTP_CODE_ENABLE): array
     {
         Yii::$app->response->statusCode = $code;
         return [

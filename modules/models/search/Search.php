@@ -27,7 +27,7 @@ class Search extends \yii\base\Model
             $model->andFilterWhere(['like', $filter, $this->search]);
         }
 
-        $model->andFilterWhere(['status' => self::STATUS_ACTIVE]);
+//        $model->andFilterWhere(['status' => self::STATUS_ACTIVE]);
 
         return new ActiveDataProvider([
             'query' => $model,

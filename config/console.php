@@ -24,6 +24,24 @@ $config = [
                     'levels' => ['error', 'warning', 'info'],
                     'logFile' => '@runtime/logs/app.log',
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/error.log',
+                    'categories' => ['yii\db\*'],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'logFile' => '@runtime/logs/info.log',
+                    'categories' => ['application'],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'logFile' => '@runtime/cronlog/cron.log',
+                    'categories' => ['cron'],
+                ],
             ],
         ],
         'db' => $db,
@@ -72,6 +90,12 @@ $config = [
             'interactive' => false,
             'enableI18N' => false,
             'modelNamespace' => 'app\models',
+        ],
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationPath' => [
+                '@vendor/sharkom/yii2-cron/migrations', // Đường dẫn tuyệt đối đến thư mục migrations
+            ],
         ],
     ],
 ];

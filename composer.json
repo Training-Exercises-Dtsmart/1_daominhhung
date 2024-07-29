@@ -24,7 +24,8 @@
         "abhi1693/yii2-sms": "2.0.0",
         "yiithings/yii2-dotenv": "*",
       "ext-json": "*",
-        "yiisoft/yii2-redis": "^2.0"
+        "yiisoft/yii2-redis": "^2.0",
+        "sharkom/yii2-cron": "1.0.5"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

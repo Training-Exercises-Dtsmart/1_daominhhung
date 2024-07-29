@@ -30,7 +30,7 @@ class CategoryProductController extends Controller
     /**
      * @throws Exception
      */
-    public function actionCreate()
+    public function actionCreate(): array
     {
         $category_product_form = new CategoryProductForm();
         $category_product_form->load(Yii::$app->request->post(), '');

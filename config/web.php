@@ -28,19 +28,6 @@ $config = [
             'class' => 'yii\caching\FileCache',
             'keyPrefix' => 'myapp'
         ],
-//        'session' => [
-//            'class' => 'yii\web\Session',
-//            'cookieParams' => [
-//                'path' => '/',
-//                'httpOnly' => true,
-//            ],
-//            'timeout' => 3600,
-//            'savePath' => '@runtime/session',
-//        ],
-//        'user' => [
-//            'identityClass' => 'app\models\User',
-//            'enableAutoLogin' => true,
-//        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -138,7 +125,12 @@ $config = [
                 ],
             ],
         ],
-
+        'cron' => [
+            'class' => '@vendor\sharkom\yii2-cron\modules',
+            'params'=>[
+                'sendNotifications'=>true,
+            ]
+        ],
     ],
     'params' => $params,
 ];

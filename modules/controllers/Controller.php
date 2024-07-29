@@ -26,7 +26,7 @@ class Controller extends BaseController implements RateLimitInterface
 
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::class,
-            'except' => ['login','register','index', 'search', 'location'],
+            'except' => ['login','register','index', 'search', 'location','create-vnpay'],
         ];
 
         $behaviors['access'] = [

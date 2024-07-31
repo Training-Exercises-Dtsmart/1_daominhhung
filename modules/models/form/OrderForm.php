@@ -11,7 +11,7 @@ class OrderForm extends Order
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            [['user_id'], 'required'],
+            [['user_id', 'order_address'], 'required'],
         ]);
     }
 
@@ -24,21 +24,24 @@ class OrderForm extends Order
         $this->attributes = $orderData;
         $this->user_id = $user->id;
 
-        if($this->validate() && $this->save())
+        if($this->validate())
         {
             $this->code_order = Yii::$app->security->generateRandomString(10);
             $this->date = date('Y-m-d H:i:s');
             $this->order_address = $orderData['order_address'] ?? '';
 
             $this->status = self::STATUS_PENDING;
-            $this->save();
 
             $orderDetail = new OrderDetailForm();
             $orderDetail->order_id = $this->id;
+
             if ($orderDetail->addOrderDetail($orderData))
             {
                 $this->sendOrderSuccessEmail($this);
+                $this->save();
                 return true;
+            } else {
+                $this->addErrors($orderDetail->getErrors());
             }
         }
         return false;

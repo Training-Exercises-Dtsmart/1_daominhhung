@@ -14,49 +14,49 @@ class Controller extends BaseController implements RateLimitInterface
     public int $rateLimit = 60;
     public $allowance;
     public $allowance_updated_at;
-    public function behaviors(): array
-    {
-        $behaviors = parent::behaviors();
-
-        $behaviors['rateLimiter'] = [
-            'class' => RateLimiter::class,
-            'enableRateLimitHeaders' => false,
-            'except' => ['login', 'register', 'index', 'search', 'location'],
-        ];
-
-        $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::class,
-            'except' => ['login','register','index', 'search', 'location','create-vnpay'],
-        ];
-
-        $behaviors['access'] = [
-            'class' => AccessControl::class,
-            'only' => ['index', 'update', 'delete', 'create', 'logout'],
-            'rules' => [
-                [
-                    'allow' => true,
-                    'actions' => ['login', 'register', 'password-reset', 'location'],
-                    'roles' => ['?'],
-                ],
-                [
-                    'allow' => true,
-                    'actions' => ['index', 'logout', 'password-reset'],
-                    'roles' => ['@'],
-                ],
-                [
-                    'allow' => true,
-                    'actions' => ['create', 'update', 'delete'],
-                    'roles' => ['admin'],
-                ],
-                [
-                    'allow' => true,
-                    'actions' => ['create'],
-                    'roles' => ['author'],
-                ]
-            ],
-        ];
-        return $behaviors;
-    }
+//    public function behaviors(): array
+//    {
+//        $behaviors = parent::behaviors();
+//
+//        $behaviors['rateLimiter'] = [
+//            'class' => RateLimiter::class,
+//            'enableRateLimitHeaders' => false,
+//            'except' => ['login', 'register', 'index', 'search', 'location'],
+//        ];
+//
+//        $behaviors['authenticator'] = [
+//            'class' => HttpBearerAuth::class,
+//            'except' => ['login','register','index', 'search', 'location','create-vnpay', 'vnpay-order', 'create-viet-qr'],
+//        ];
+//
+//        $behaviors['access'] = [
+//            'class' => AccessControl::class,
+//            'only' => ['index', 'update', 'delete', 'create', 'logout'],
+//            'rules' => [
+//                [
+//                    'allow' => true,
+//                    'actions' => ['login', 'register', 'password-reset', 'location'],
+//                    'roles' => ['?'],
+//                ],
+//                [
+//                    'allow' => true,
+//                    'actions' => ['index', 'logout', 'password-reset'],
+//                    'roles' => ['@'],
+//                ],
+//                [
+//                    'allow' => true,
+//                    'actions' => ['create', 'update', 'delete'],
+//                    'roles' => ['admin'],
+//                ],
+//                [
+//                    'allow' => true,
+//                    'actions' => ['create'],
+//                    'roles' => ['author'],
+//                ]
+//            ],
+//        ];
+//        return $behaviors;
+//    }
 
     public function getRateLimit($request, $action): array
     {

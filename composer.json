@@ -25,7 +25,9 @@
         "yiithings/yii2-dotenv": "*",
       "ext-json": "*",
         "yiisoft/yii2-redis": "^2.0",
-        "sharkom/yii2-cron": "1.0.5"
+        "sharkom/yii2-cron": "1.0.5",
+        "endroid/qr-code": "^5.0",
+        "webklex/php-imap": "^5.5"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

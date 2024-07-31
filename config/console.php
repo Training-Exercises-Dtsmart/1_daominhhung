@@ -21,27 +21,16 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning', 'info'],
-                    'logFile' => '@runtime/logs/app.log',
-                ],
-                [
-                    'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
-                    'logFile' => '@runtime/logs/error.log',
-                    'categories' => ['yii\db\*'],
+                    'logFile' => '@runtime/logs/app.log',
+
                 ],
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['info'],
-                    'logFile' => '@runtime/logs/info.log',
-                    'categories' => ['application'],
-                ],
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['info'],
-                    'logFile' => '@runtime/cronlog/cron.log',
-                    'categories' => ['cron'],
-                ],
+//                [
+//                    'class' => 'yii\log\FileTarget',
+//                    'levels' => ['info'],
+//                    'logFile' => '@runtime/cronlog/cron.log',
+//                    'categories' => ['cron'],
+//                ],
             ],
         ],
         'db' => $db,

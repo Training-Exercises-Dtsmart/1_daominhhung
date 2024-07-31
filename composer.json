@@ -27,7 +27,8 @@
         "yiisoft/yii2-redis": "^2.0",
         "sharkom/yii2-cron": "1.0.5",
         "endroid/qr-code": "^5.0",
-        "webklex/php-imap": "^5.5"
+        "webklex/php-imap": "^5.5",
+        "kekaadrenalin/yii2-imap": "^0.5.8"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

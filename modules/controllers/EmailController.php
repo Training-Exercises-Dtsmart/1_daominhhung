@@ -9,23 +9,19 @@ class EmailController extends Controller
 {
     public function actionIndex()
     {
-        echo 'Chạy Mail';
         $imapPath = '{imap.gmail.com:993/imap/ssl}INBOX';
-
         $imapLogin = env('EMAIL_USER');
         $imapPassword = env("EMAIL_PASSWORD");
 
         $mailbox = imap_open($imapPath, $imapLogin, $imapPassword);
         if (!$mailbox) {
-            return $this->asJson(['error' => 'Lỗi kết nối IMAP: ' . imap_last_error()]);
+            return $this->asJson(['error' => 'IMAP connection fails: ' . imap_last_error()]);
         }
         $emails = imap_search($mailbox, 'FROM "ACB"');
-        $emailData = [];
         $count = 0;
 
         if ($emails) {
             rsort($emails);
-
             foreach ($emails as $email_number) {
                 $overview = imap_fetch_overview($mailbox, $email_number, 0);
                 $subject = $overview[0]->subject ?? '';
@@ -34,7 +30,7 @@ class EmailController extends Controller
                     $message = imap_fetchbody($mailbox, $email_number, 1);
                     $parsedData = $this->parseEmailContent($message);
 
-                    $emailData[] = [
+                    $emailData = [
                         'subject' => $subject,
                         'from' => $overview[0]->from,
                         'date' => $overview[0]->date,
@@ -50,7 +46,7 @@ class EmailController extends Controller
                 }
             }
         } else {
-            $emailData = ['message' => 'Không có email nào từ ACB.'];
+            $emailData = ['message' => 'Not found email ACB.'];
         }
         imap_close($mailbox);
         return $this->json(true, $emailData, 'success', HttpCode::SUCCESSCODE);
@@ -58,7 +54,6 @@ class EmailController extends Controller
 
     private function parseEmailContent($content): array
     {
-        $descriptionMatches = "";
         $content = html_entity_decode($content, ENT_QUOTES, 'UTF-8');
         $content = strip_tags($content);
         $content = preg_replace('/\s*=\s*/', '', $content);
@@ -66,8 +61,6 @@ class EmailController extends Controller
         $content = preg_replace('/[\r\n]+/', ' ', $content);
         $content = preg_replace('/\s+/', ' ', $content);
         $content = trim($content);
-
-//        dd($content);
 
         preg_match('/ti khoản\s*(\d+)/i', $content, $accountMatches);
         preg_match('/Giao dịch mới nhất:(Ghi nợ|Ghi có)\s*([+-]?[\d,]+\.\d+\s*VND)/i', $content, $transactionMatches);

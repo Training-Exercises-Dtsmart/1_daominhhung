@@ -86,28 +86,7 @@ $config = [
         'locationComponent' => [
             'class' => 'app\components\Location\LocationComponent',
         ],
-
-        'sms' => [
-            'class' => 'abhimanyu\sms\components\Sms',
-            'transportType' => 'nexmo',
-            'transportOptions' => [
-                'api_key' => '9901673f21204e10799e366272a73f26-322da15b-bf89-41e4-b011-db600a4a3e45',
-//                'api_secret' => 'your_nexmo_api_secret',
-//                'from' => 'your_nexmo_phone_number',
-            ],
-        ],
     ],
-
-//    'modules' => [
-//        'api' => [
-//            'class' => 'yii\base\Module',
-//            'modules' => [
-//                'v1' => [
-//                    'class' => 'app\modules\Module',
-//                ],
-//            ],
-//        ],
-//    ],
     'modules' => [
         'api' => [
             'class' => 'yii\base\Module',

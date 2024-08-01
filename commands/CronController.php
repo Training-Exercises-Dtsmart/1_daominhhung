@@ -15,7 +15,7 @@ class CronController extends Controller
      */
     public function actionIndex()
     {
-        $result = Yii::$app->runAction('api/v1/email/index');
+        $result = Yii::$app->runAction('api/email/index');
 
         Yii::info('Result from EmailController: ' . print_r($result, true), 'cron');
     }

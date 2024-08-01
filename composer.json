@@ -30,7 +30,8 @@
         "kekaadrenalin/yii2-imap": "^0.5.8",
         "dragonmantank/cron-expression": "^3.3",
         "symfony/mailer": "^7.1",
-        "yiithings/yii2-dotenv": "*"
+        "yiithings/yii2-dotenv": "*",
+      "ext-imap": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -43,7 +44,8 @@
         "codeception/module-filesystem": "^3.0 || ^2.0 || ^1.1",
         "codeception/verify": "^3.0 || ^2.2",
         "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4",
-        "schmunk42/yii2-giiant": "^1.0"
+        "schmunk42/yii2-giiant": "^1.0",
+        "codeception/module-rest": "^3.4"
     },
     "config": {
         "allow-plugins": {

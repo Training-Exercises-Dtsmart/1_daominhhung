@@ -57,8 +57,6 @@ $config = [
                 'port' => '587',
                 'username' => 'daominhhung2203@gmail.com',
                 'password' => 'byvw ysmm axfo grvt',
-//                'username' => 'huysanti123456@gmail.com',
-//                'password' => 'buxk ghay epzs gclb',
                 'encryption' => 'tls',
             ],
         ],

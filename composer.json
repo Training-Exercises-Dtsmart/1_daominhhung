@@ -22,13 +22,15 @@
         "yiisoft/yii2-queue": "^2.3",
       "ext-curl": "*",
         "abhi1693/yii2-sms": "2.0.0",
-        "yiithings/yii2-dotenv": "*",
       "ext-json": "*",
         "yiisoft/yii2-redis": "^2.0",
         "sharkom/yii2-cron": "1.0.5",
         "endroid/qr-code": "^5.0",
         "webklex/php-imap": "^5.5",
-        "kekaadrenalin/yii2-imap": "^0.5.8"
+        "kekaadrenalin/yii2-imap": "^0.5.8",
+        "dragonmantank/cron-expression": "^3.3",
+        "symfony/mailer": "^7.1",
+        "yiithings/yii2-dotenv": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

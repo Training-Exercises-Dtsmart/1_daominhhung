@@ -52,8 +52,6 @@ $config = [
                 'port' => '587',
                 'username' => 'daominhhung2203@gmail.com',
                 'password' => 'byvw ysmm axfo grvt',
-//                'username' => 'huysanti123456@gmail.com',
-//                'password' => 'buxk ghay epzs gclb',
                 'encryption' => 'tls',
             ],
         ],
@@ -85,7 +83,7 @@ $config = [
         'migrate' => [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationPath' => [
-                '@vendor/sharkom/yii2-cron/migrations', // Đường dẫn tuyệt đối đến thư mục migrations
+                '@vendor/sharkom/yii2-cron/migrations',
             ],
         ],
     ],

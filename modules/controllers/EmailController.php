@@ -17,8 +17,11 @@ class EmailController extends Controller
         if (!$mailbox) {
             return $this->asJson(['error' => 'IMAP connection fails: ' . imap_last_error()]);
         }
-        $emails = imap_search($mailbox, 'FROM "ACB"');
-        $count = 0;
+
+        $today = date('d-M-Y');
+        $searchDate = 'ON "' . $today . '"';
+        $emails = imap_search($mailbox, 'FROM "ACB" ' . $searchDate);
+        $emailData = [];
 
         if ($emails) {
             rsort($emails);
@@ -30,23 +33,18 @@ class EmailController extends Controller
                     $message = imap_fetchbody($mailbox, $email_number, 1);
                     $parsedData = $this->parseEmailContent($message);
 
-                    $emailData = [
+                    $emailData[] = [
                         'subject' => $subject,
                         'from' => $overview[0]->from,
-                        'date' => $overview[0]->date,
+                        'date' => $this->convertToVietnamTime($overview[0]->date),
                         'account' => $parsedData['account'],
                         'transaction' => $parsedData['transaction'],
                         'description' => $parsedData['description'],
                     ];
-
-                    $count++;
-                    if ($count >= 5) {
-                        break;
-                    }
                 }
             }
         } else {
-            $emailData = ['message' => 'Not found email ACB.'];
+            $emailData = ['message' => 'No emails found for today from ACB.'];
         }
         imap_close($mailbox);
         return $this->json(true, $emailData, 'success', HttpCode::SUCCESSCODE);
@@ -72,5 +70,12 @@ class EmailController extends Controller
             'transaction' => $transactionMatches[2] ?? 'Not Found',
             'description' => $description ?? 'Not Found',
         ];
+    }
+
+    private function convertToVietnamTime($date): string
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $timestamp = strtotime($date);
+        return date('d/m/Y H:i:s', $timestamp);
     }
 }

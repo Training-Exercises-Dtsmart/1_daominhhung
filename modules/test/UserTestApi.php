@@ -1,26 +1,44 @@
 <?php
 
-namespace app\modules\test;
+namespace tests\unit;
 
-use ApiTester;
+use Codeception\Test\Unit;
+use Codeception\Util\HttpCode;
 
-class UserTestApi
+class ApiTest extends Unit
 {
-    public function createUserGet(ApiTester $I)
+    /**
+     * @var \ApiTester
+     */
+    protected $tester;
+
+    protected function _before()
     {
-        $I->sendGet('members');
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseIsJson();
-        $I->seeResponseIsValidOnJsonSchemaString('{"type":"array"}');
+        $this->tester = $this->getModule('ApiTester');
+    }
+
+    public function testCreateUserGet()
+    {
+        $this->tester->sendGet('members');
+        $this->tester->seeResponseCodeIs(HttpCode::OK);
+        $this->tester->seeResponseIsJson();
+        $this->tester->seeResponseIsValidOnJsonSchemaString('{"type":"array"}');
+
         $validResponseJsonSchema = json_encode(
             [
-                'properties' => [
-                    'id'         => ['type' => 'integer'],
-                    'name'       => ['type' => 'string'],
-                    'started_on' => ['type' => 'string']
-                ]
+                'type' => 'array',
+                'items' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'id'         => ['type' => 'integer'],
+                        'name'       => ['type' => 'string'],
+                        'started_on' => ['type' => 'string']
+                    ],
+                    'required' => ['id', 'name', 'started_on'],
+                ],
             ]
         );
-        $I->seeResponseIsValidOnJsonSchemaString($validResponseJsonSchema);
+
+        $this->tester->seeResponseIsValidOnJsonSchemaString($validResponseJsonSchema);
     }
 }

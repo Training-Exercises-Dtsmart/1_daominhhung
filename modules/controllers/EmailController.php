@@ -12,8 +12,8 @@ class EmailController extends Controller
         $response = Yii::$app->response;
 
         $imapPath = '{imap.gmail.com:993/imap/ssl}INBOX';
-        $imapLogin = 'daominhhung2203@gmail.com';
-        $imapPassword = 'byvw ysmm axfo grvt';
+        $imapLogin = env('EMAIL_USER');
+        $imapPassword = env('EMAIL_PASS');
 
         $mailbox = imap_open($imapPath, $imapLogin, $imapPassword);
         if(!$mailbox)

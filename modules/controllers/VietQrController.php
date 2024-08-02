@@ -7,6 +7,8 @@ use app\modules\HttpCode;
 
 class VietQrController extends Controller
 {
+    const EMAIL_NEW = 0;
+    const EMAIL_SEEN = 1;
     public function actionIndex()
     {
         $imapPath = '{imap.gmail.com:993/imap/ssl}INBOX';
@@ -26,7 +28,12 @@ class VietQrController extends Controller
         if ($emails) {
             rsort($emails);
             foreach ($emails as $email_number) {
-                $overview = imap_fetch_overview($mailbox, $email_number, 0);
+                $overview = imap_fetch_overview($mailbox, $email_number, self::EMAIL_NEW);
+
+                if (isset($overview[0]->seen) && $overview[0]->seen == self::EMAIL_SEEN) {
+                    continue;
+                }
+
                 $subject = $overview[0]->subject ?? '';
 
                 if (stripos($subject, 'ACB-Dich vu bao so du tu dong') !== false) {
@@ -41,13 +48,13 @@ class VietQrController extends Controller
                         'transaction' => $parsedData['transaction'],
                         'description' => $parsedData['description'],
                     ];
+                    imap_setflag_full($mailbox, $email_number, "\\Seen");
                 }
             }
         } else {
             $emailData = ['message' => 'No emails found for today from ACB.'];
         }
         imap_close($mailbox);
-//        return $this->json(true, $emailData, 'success', HttpCode::SUCCESSCODE);
         return $emailData;
     }
 

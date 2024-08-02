@@ -14,6 +14,6 @@ class CronController extends Controller
         $result = $controller->actionIndex();
 
         Yii::info('Result from VietQrController: ' . print_r($result, true), 'cron');
-        echo "Logged Result: " . print_r($result, true) . "\n";
+        echo "Thông tin Bank: " . print_r($result, true) . "\n";
     }
 }

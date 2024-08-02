@@ -60,9 +60,9 @@ class UserController extends Controller
         $user = new UserForm();
         $userData = $user->load(Yii::$app->request->post());
         if ($user->register($userData)) {
-            return $this->json(true, ['data' => $user], 'User registered success', HttpCode::BADREQUESTCODE);
+            return $this->json(true, ['data' => $user], 'User registered success', HttpCode::SUCCESSCODE);
         }
-        return $this->json(false, ['errors' => $user->getErrors()], 'User registered fails', HttpCode::SUCCESSCODE);
+        return $this->json(false, ['errors' => $user->getErrors()], 'User registered fails', HttpCode::BADREQUESTCODE);
     }
 
     /**

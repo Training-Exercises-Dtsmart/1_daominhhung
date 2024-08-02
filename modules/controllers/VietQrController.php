@@ -5,7 +5,7 @@ namespace app\modules\controllers;
 use Yii;
 use app\modules\HttpCode;
 
-class EmailController extends Controller
+class VietQrController extends Controller
 {
     public function actionIndex()
     {
@@ -47,7 +47,8 @@ class EmailController extends Controller
             $emailData = ['message' => 'No emails found for today from ACB.'];
         }
         imap_close($mailbox);
-        return $this->json(true, $emailData, 'success', HttpCode::SUCCESSCODE);
+//        return $this->json(true, $emailData, 'success', HttpCode::SUCCESSCODE);
+        return $emailData;
     }
 
     private function parseEmailContent($content): array

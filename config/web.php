@@ -93,6 +93,7 @@ $config = [
             'modules' => [
                 'v1' => [
                     'class' => 'app\modules\Module',
+                    'controllerNamespace' => 'app\modules\controllers',
                 ],
             ],
             'as corsFilter' => [

@@ -2,13 +2,12 @@
 
 namespace app\modules\controllers;
 
-use app\modules\models\form\CategoryProductForm;
 use Yii;
+use app\modules\models\form\CategoryProductForm;
 use app\models\CategoryProduct;
 use app\modules\models\search\Search;
 use app\modules\HttpCode;
 use yii\db\Exception;
-use yiithings\dotenv\Loader;
 
 
 class CategoryProductController extends Controller

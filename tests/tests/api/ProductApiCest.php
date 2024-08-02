@@ -33,53 +33,57 @@ class UserApiCest
     public function index(ApiTester $I)
     {
         $I->haveHttpHeader('Authorization', 'Bearer ' . $this->authToken);
-        $I->sendGET(env('API_UNIT_TEST') . '/user');
+        $I->sendGET(env('API_UNIT_TEST') . '/product');
         $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseJsonMatchesJsonPath('$.data.data[*].id');
         $I->seeResponseJsonMatchesJsonPath('$.data.data[*].*');
     }
 
-    public function login(ApiTester $I)
+    public function create(ApiTester $I)
     {
-        $I->sendPOST(env('API_UNIT_TEST') . '/user/login', [
-            'username' => 'daominhhung1@gmail.com',
-            'password' => '123123123',
+        $I->sendPOST(env('API_UNIT_TEST') . '/product/create', [
+            'name' => $this->faker->word,
+            'image' => 'default.png',
+            'price' => '24000000',
+            'stock' => '100',
+            'description' => $this->faker->sentence,
+            'category_id' => '1',
         ]);
         $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseJsonMatchesJsonPath('$.data.data[*]');
-    }
-
-    public function register(ApiTester $I)
-    {
-        $I->sendPOST(env('API_UNIT_TEST') . '/user/register', [
-            'username' => 'daominhhung2203@gmail.com',
-            'password' => '123123123',
-        ]);
-        $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->seeResponseIsJson();
-        $I->seeResponseJsonMatchesJsonPath('$.data.data[*]');
-    }
-
-    public function logout(ApiTester $I)
-    {
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $this->authToken);
-        $I->sendPOST(env('API_UNIT_TEST') . '/user/logout?id=35');
-        $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->seeResponseIsJson();
-        $I->seeResponseJsonMatchesJsonPath('$.data');
     }
 
     public function update(ApiTester $I)
     {
         $I->haveHttpHeader('Authorization', 'Bearer ' . $this->authToken);
-        $I->sendPUT(env('API_UNIT_TEST') . '/user/update?id=37', [
-            'username' => 'hung@gmail.com',
+        $I->sendPUT(env('API_UNIT_TEST') . '/product/update?id=58', [
+            'name' => $this->faker->word,
+            'description' => $this->faker->sentence,
         ]);
         $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseJsonMatchesJsonPath('$.data');
+    }
+
+        public function delete(ApiTester $I)
+    {
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $this->authToken);
+        $I->sendDelete(env('API_UNIT_TEST') . '/product/delete?id=58');
+        $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseJsonMatchesJsonPath('$.data');
+    }
+
+    public function search(ApiTester $I)
+    {
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $this->authToken);
+        $searchQuery = 'Iphone15'; // Adjust according to your needs
+        $I->sendGET(env('API_UNIT_TEST') . '/product?search=' . $searchQuery);
+        $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(['status' => true]);
     }
 
 }

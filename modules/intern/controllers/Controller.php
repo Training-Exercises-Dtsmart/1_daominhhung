@@ -1,13 +1,11 @@
 <?php
 
-namespace app\modules\controllers;
+namespace app\modules\intern\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
-use yii\rest\Controller as BaseController;
-use yii\filters\auth\HttpBearerAuth;
 use yii\filters\RateLimitInterface;
-use yii\filters\RateLimiter;
+use yii\rest\Controller as BaseController;
+
 class Controller extends BaseController implements RateLimitInterface
 {
     const HTTP_CODE_ENABLE = 200;

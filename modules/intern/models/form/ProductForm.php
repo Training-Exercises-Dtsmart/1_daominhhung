@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\models\form;
+namespace app\modules\intern\models\form;
 
-use Yii;
 use app\models\Product;
+use Yii;
 use yii\db\Exception;
 use yii\web\UploadedFile;
 
@@ -20,7 +20,7 @@ class ProductForm extends Product
     /**
      * @throws Exception
      */
-    public function uploadFiles($data)
+    public function uploadFiles($data): bool
     {
         $avatarFiles = UploadedFile::getInstancesByName('image');
 

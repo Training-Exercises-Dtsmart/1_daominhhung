@@ -2,9 +2,9 @@
 
 namespace app\models;
 
+use app\modules\intern\models\form\SignInForm;
 use Yii;
 use yii\base\Model;
-use app\modules\models\form\SignInForm;
 
 /**
  * LoginForm is the model behind the login form.

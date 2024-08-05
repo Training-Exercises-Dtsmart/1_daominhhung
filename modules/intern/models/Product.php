@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\models;
+namespace app\modules\intern\models;
 
 use app\models\base\Product as BaseProduct;
 

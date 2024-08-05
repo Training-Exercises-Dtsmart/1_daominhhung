@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\controllers;
+namespace app\modules\intern\controllers;
 
 use app\queue\Job\SendMail\SendEmailJob;
 use Yii;

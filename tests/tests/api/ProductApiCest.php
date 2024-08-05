@@ -5,7 +5,7 @@ namespace tests\api;
 use ApiTester;
 use Faker\Factory;
 
-class UserApiCest
+class ProductApiCest
 {
     private $authToken;
     private $faker;

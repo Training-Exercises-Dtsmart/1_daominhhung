@@ -1,8 +1,8 @@
 <?php
-namespace app\modules\models\form;
+namespace app\modules\intern\models\form;
 
-use Yii;
 use app\models\Order;
+use Yii;
 use yii\base\Exception;
 
 class OrderForm extends Order

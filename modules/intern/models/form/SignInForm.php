@@ -1,8 +1,6 @@
 <?php
 
-namespace app\modules\models\form;
-
-use Yii;
+namespace app\modules\intern\models\form;
 
 class SignInForm extends UserForm
 {

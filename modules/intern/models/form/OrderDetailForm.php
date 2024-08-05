@@ -1,10 +1,9 @@
 <?php
 
-namespace app\modules\models\form;
+namespace app\modules\intern\models\form;
 
-use Yii;
 use app\models\OrderDetail;
-use app\modules\models\Product;
+use app\modules\intern\models\Product;
 use yii\db\Exception;
 
 class OrderDetailForm extends OrderDetail

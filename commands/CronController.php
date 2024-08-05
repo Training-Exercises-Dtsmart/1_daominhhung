@@ -2,9 +2,9 @@
 
 namespace app\commands;
 
+use app\modules\intern\controllers\VietQrController;
 use Yii;
 use yii\console\Controller;
-use app\modules\controllers\VietQrController;
 
 class CronController extends Controller
 {

@@ -1,7 +1,8 @@
 <?php
-namespace app\modules\models\search;
+namespace app\modules\intern\models\search;
 
 use yii\data\ActiveDataProvider;
+
 class Search extends \yii\base\Model
 {
     public $search;

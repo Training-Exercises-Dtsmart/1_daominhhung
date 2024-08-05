@@ -1,12 +1,12 @@
 <?php
 
-namespace app\modules\controllers;
+namespace app\modules\intern\controllers;
 
-use Yii;
-use app\modules\models\form\CategoryProductForm;
 use app\models\CategoryProduct;
-use app\modules\models\search\Search;
-use app\modules\HttpCode;
+use app\modules\intern\HttpCode;
+use app\modules\intern\models\form\CategoryProductForm;
+use app\modules\intern\models\search\Search;
+use Yii;
 use yii\db\Exception;
 
 

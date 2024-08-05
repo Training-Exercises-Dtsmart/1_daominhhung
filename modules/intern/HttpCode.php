@@ -1,8 +1,6 @@
 <?php
 
-namespace app\modules;
-
-use Yii;
+namespace app\modules\intern;
 
 class HttpCode
 {

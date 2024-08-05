@@ -1,15 +1,14 @@
 <?php
 
-namespace app\modules\controllers;
+namespace app\modules\intern\controllers;
 
-use app\modules\models\form\OrderDetailForm;
-use Yii;
-use app\models\Product;
 use app\models\Order;
-use app\modules\models\form\OrderForm;
-use app\modules\HttpCode;
+use app\models\Product;
+use app\modules\intern\HttpCode;
+use app\modules\intern\models\form\OrderForm;
+use app\modules\intern\models\search\Search;
+use Yii;
 use yii\db\Exception;
-use app\modules\models\search\Search;
 use yii\web\Response;
 
 class OrderController extends Controller

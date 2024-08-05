@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules;
+namespace app\modules\intern;
 
 use yii\base\Module as BaseModule;
 

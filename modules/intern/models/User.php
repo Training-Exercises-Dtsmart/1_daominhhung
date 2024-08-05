@@ -1,10 +1,11 @@
 <?php
 
-namespace app\modules\models;
+namespace app\modules\intern\models;
 
-use Yii;
 use app\models\base\User as BaseUser;
+use Yii;
 use yii\web\IdentityInterface;
+
 class User extends BaseUser implements IdentityInterface
 {
     public static function findIdentity($id)
@@ -16,12 +17,12 @@ class User extends BaseUser implements IdentityInterface
         return $this->id;
     }
 
-    public function getAuthKey()
+    public function getAuthKey(): ?string
     {
         return $this->access_token;
     }
 
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($authKey): bool
     {
         return $this->access_token === $authKey;
     }
@@ -30,7 +31,7 @@ class User extends BaseUser implements IdentityInterface
     {
         return static::findOne(['access_token' => $token]);
     }
-    public static function isPasswordResetTokenValid($token)
+    public static function isPasswordResetTokenValid($token): bool
     {
         if (empty($token)) {
             return false;
@@ -46,7 +47,7 @@ class User extends BaseUser implements IdentityInterface
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
-    public function formName()
+    public function formName(): string
     {
         return '';
     }

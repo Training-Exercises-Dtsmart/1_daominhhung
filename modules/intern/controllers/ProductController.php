@@ -1,15 +1,16 @@
 <?php
 
-namespace app\modules\controllers;
+namespace app\modules\intern\controllers;
 
 
 use Yii;
-use app\modules\models\form\ProductForm;
-use app\modules\models\Product;
 use app\models\Review;
-use app\modules\HttpCode;
+use app\modules\intern\HttpCode;
+use app\modules\intern\models\form\ProductForm;
+use app\modules\intern\models\Product;
+use app\modules\intern\models\search\Search;
 use yii\db\Exception;
-use app\modules\models\search\Search;
+
 class ProductController extends Controller
 {
     const STATUS_ACTIVE = 0;
@@ -90,7 +91,6 @@ class ProductController extends Controller
         $review = new Review();
         $review->load(Yii::$app->request->post(), '');
         $review->user_id = Yii::$app->user->identity->id;
-
         $review->status = self::STATUS_ACTIVE;
 
         if($review->validate() && $review->save())

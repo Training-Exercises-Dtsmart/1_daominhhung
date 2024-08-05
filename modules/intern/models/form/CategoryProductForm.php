@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\models\form;
+namespace app\modules\intern\models\form;
 
 
 use app\models\CategoryProduct;

@@ -43,7 +43,7 @@ $config = [
         ],
         'db' => $db,
         'user' => [
-            'identityClass' => 'app\modules\models\User',
+            'identityClass' => 'app\modules\intern\models\User',
             'enableAutoLogin' => true,
             'loginUrl' => ['site/login'],
         ],
@@ -92,7 +92,7 @@ $config = [
             'class' => 'yii\base\Module',
             'modules' => [
                 'v1' => [
-                    'class' => 'app\modules\Module',
+                    'class' => 'app\modules\intern\Module',
                     'controllerNamespace' => 'app\modules\controllers',
                 ],
             ],

@@ -1,9 +1,6 @@
 <?php
 
-namespace app\modules\controllers;
-
-use Yii;
-use app\modules\HttpCode;
+namespace app\modules\intern\controllers;
 
 class VietQrController extends Controller
 {

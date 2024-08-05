@@ -1,9 +1,8 @@
 <?php
 
-namespace app\modules\controllers;
+namespace app\modules\intern\controllers;
 
 use Yii;
-use app\modules\controllers\Controller;
 use yii\base\Exception;
 
 class RbacController extends Controller

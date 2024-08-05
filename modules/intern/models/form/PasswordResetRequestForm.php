@@ -1,9 +1,9 @@
 <?php
-namespace app\modules\models\form;
+namespace app\modules\intern\models\form;
 
+use app\modules\intern\models\User;
 use Yii;
 use yii\base\Model;
-use app\modules\models\User;
 use yii\db\Exception;
 
 class PasswordResetRequestForm extends Model
@@ -18,7 +18,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'exist',
-                'targetClass' => 'app\modules\models\User',
+                'targetClass' => 'app\modules\intern\models\User',
                 'targetAttribute' => 'username',
                 'filter' => ['status' => self::STATUS_NOT_DELETE],
                 'message' => 'There is no user with this email address.'

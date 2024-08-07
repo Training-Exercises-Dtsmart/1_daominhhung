@@ -14,7 +14,7 @@ class Product extends BaseProduct
     {
         return array_merge(parent::fields(), ['category_name' => 'categoryName']);
     }
-    public function getCategoryName()
+    public function getCategoryName(): ?string
     {
         return isset($this->category) ? $this->category->name : null;
     }

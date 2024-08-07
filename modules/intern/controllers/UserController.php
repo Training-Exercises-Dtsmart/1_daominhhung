@@ -2,6 +2,7 @@
 
 namespace app\modules\intern\controllers;
 
+use Yii;
 use app\models\LoginForm;
 use app\modules\intern\HttpCode;
 use app\modules\intern\models\form\PasswordResetRequestForm;
@@ -10,7 +11,6 @@ use app\modules\intern\models\form\UserForm;
 use app\modules\intern\models\search\Search;
 use app\modules\intern\models\User;
 use app\modules\intern\services\UserService;
-use Yii;
 use yii\db\Exception;
 
 class UserController extends Controller
@@ -40,7 +40,8 @@ class UserController extends Controller
     public function actionLogin(): array
     {
        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post(), '') && $model->login())
+       $data = $model->load(Yii::$app->request->post(), '');
+        if ($data && $model->login())
         {
             $user = $model->getUser();
             if($user->access_token == null)

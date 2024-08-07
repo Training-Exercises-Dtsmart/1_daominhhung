@@ -68,7 +68,7 @@ class VietQrController extends Controller
         preg_match('/ti khoản\s*(\d+)/i', $content, $accountMatches);
         preg_match('/Giao dịch mới nhất:(Ghi nợ|Ghi có)\s*([+-]?[\d,]+\.\d+\s*VND)/i', $content, $transactionMatches);
         preg_match('/Nội dung giao dịch:\s*([^\d]+)\s*(\d{6,})/', $content, $descriptionMatches);
-        $description = preg_replace('/[-]+/', '', $descriptionMatches[1]);
+        $description = preg_replace('/-+/', '', $descriptionMatches[1]);
 
         return [
             'account' => $accountMatches[1] ?? 'Not Found',

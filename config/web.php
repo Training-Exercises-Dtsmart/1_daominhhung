@@ -15,7 +15,6 @@ $config = [
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => env('COOKIE_VALIDATION'),
         ],
         'redis' => [
@@ -41,6 +40,7 @@ $config = [
                 ],
             ],
         ],
+
         'db' => $db,
         'user' => [
             'identityClass' => 'app\modules\intern\models\User',
@@ -92,8 +92,7 @@ $config = [
             'class' => 'yii\base\Module',
             'modules' => [
                 'v1' => [
-                    'class' => 'app\modules\intern\Module',
-                    'controllerNamespace' => 'app\modules\controllers',
+                    'class' => 'app\modules\intern\api\v1\Module',
                 ],
             ],
             'as corsFilter' => [
